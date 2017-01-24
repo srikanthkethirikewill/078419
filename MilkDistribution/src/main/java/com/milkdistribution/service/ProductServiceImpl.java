@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.milkdistribution.dao.ProductDAO;
+import com.milkdistribution.dao.RoasterDAO;
 import com.milkdistribution.entity.Product;
 
 @Service("productService")
@@ -16,6 +17,9 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	ProductDAO productDAO;
+	
+	@Autowired
+	RoasterDAO roasterDAO;
 
 	@Override
 	public List<Product> getList() {
@@ -36,6 +40,8 @@ public class ProductServiceImpl implements ProductService{
 		productObj.setDescription(product.getDescription());
 		productObj.setPrice(product.getPrice());
 		productDAO.save(productObj);
+		
+		roasterDAO.updateProductCosts(productObj);
 	}
 
 	@Override

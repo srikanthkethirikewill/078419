@@ -110,24 +110,21 @@ public class MilkDistributionController {
 	}
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST) 
-	public UserDTO createUser(@RequestBody RequestDTO<UserDTO> request) {  
+	public void createUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO user = request.getBody();
 	    userService.createUser(user);
-	    return user;
 	}
 	
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST) 
-	public UserDTO updateUser(@RequestBody RequestDTO<UserDTO> request) {  
+	public void updateUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO user = request.getBody();
 		userService.updateUser(user);
-	    return user;
 	}
 	
 	@RequestMapping(value = "/verifyUser", method = RequestMethod.POST) 
-	public UserDTO verifyUser(@RequestBody RequestDTO<UserDTO> request) {  
+	public void verifyUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO user = request.getBody();
 		userService.verifyUser(user);
-	    return user;
 	}
 	
 	@RequestMapping(value = "/validateyUser", method = RequestMethod.POST) 

@@ -24,6 +24,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ?", new Object[] {user,date});
 	}
 	
+	@Override
 	public void updateProductCosts(Product product) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR, 0);
@@ -31,7 +32,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		getHibernateTemplate().bulkUpdate("update RoasterDetail s set s.rate = ? where s.roaster.product = ? and s.roaster.date >= ?", new Object[] {product.getPrice(),product, calendar.getTime()});
-		getHibernateTemplate().bulkUpdate("update Roaster s set s.amount = (select sum(d.rate) from RoasterDetail d where d.roaster = s group by s) where s.date >= ? ", new Object[] {calendar.getTime()});
+		
 	}
 
 	@Override
