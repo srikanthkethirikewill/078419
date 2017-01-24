@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -25,6 +26,8 @@ public class RoasterDetail {
 	private int qty;
 	
 	private double rate;
+	
+	private Roaster roaster;
 
 	@Id
 	@GeneratedValue(generator = "uuid")
@@ -63,6 +66,16 @@ public class RoasterDetail {
 
 	public void setRate(double rate) {
 		this.rate = rate;
+	}
+
+	@ManyToOne(fetch= FetchType.EAGER)
+	@JoinColumn(name= "ROASTER_ID")
+	public Roaster getRoaster() {
+		return roaster;
+	}
+
+	public void setRoaster(Roaster roaster) {
+		this.roaster = roaster;
 	}
 	
 	

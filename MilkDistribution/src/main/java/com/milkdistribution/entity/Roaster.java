@@ -94,7 +94,7 @@ public class Roaster {
 		this.area = area;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "ROASTER_DTL")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "roaster")
 	public Set<RoasterDetail> getRoasterDetails() {
 		return roasterDetails;
 	}
