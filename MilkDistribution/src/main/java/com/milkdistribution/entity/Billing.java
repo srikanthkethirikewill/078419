@@ -23,6 +23,10 @@ import org.hibernate.annotations.GenericGenerator;
 	@NamedQuery(
 	name = "findBillingList",
 	query = "from Billing s where s.month = ? and s.year = ?"
+	),
+	@NamedQuery(
+	name = "findBill",
+	query = "from Billing s where s.id = ?"
 	)
 })
 @Entity

@@ -11,4 +11,6 @@ public interface BillingDAO {
 	List<Billing> getBilling(String month,String year);
 	
 	Billing getBillingUser(String userId, String month,String year);
+	
+	Billing getBilling(String id);
 }

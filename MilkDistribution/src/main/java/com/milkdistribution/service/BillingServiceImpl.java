@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.milkdistribution.dao.BillingDAO;
 import com.milkdistribution.dao.RoasterDAO;
+import com.milkdistribution.dto.BillingDTO;
 import com.milkdistribution.entity.Billing;
 
 @Service("billingService")
@@ -34,6 +35,17 @@ public class BillingServiceImpl implements BillingService {
 			}
 		}
 
+	}
+	
+	public void getBillingList(BillingDTO billingDTO) {
+		List<Billing> billList = billingDAO.getBilling(billingDTO.getMonth(), billingDTO.getYear());
+		billingDTO.setBillList(billList);
+	}
+	
+	public void updateBilling(Billing billing) {
+		Billing billingObj = billingDAO.getBilling(billing.getId());
+		billingObj.setStatus("C");
+		billingDAO.save(billingObj);
 	}
 
 }

@@ -12,6 +12,14 @@ public class BillingDAOImpl extends CustomHibernateDaoSupport implements Billing
 		// TODO Auto-generated method stub
 		getHibernateTemplate().saveOrUpdate(billing);
 	}
+	
+	public Billing getBilling(String id) {
+		List<?> list = getHibernateTemplate().findByNamedQuery("findBill", new Object[]{id});
+		if (list == null || list.size()==0) {
+			return null;
+		}
+		return (Billing)list.get(0);
+	}
 
 	@Override
 	public List<Billing> getBilling(String month, String year) {
