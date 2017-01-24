@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"  
+ xmlns:context="http://www.springframework.org/schema/context"  
+ xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+ xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:tx="http://www.springframework.org/schema/tx"
+ xmlns:task="http://www.springframework.org/schema/task"
+ xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task-3.0.xsd
+        ">  
+  
+
+<context:component-scan base-package="com.milkdonor" />
+<mvc:annotation-driven/>  
+<task:annotation-driven/>
+<bean id="dataSource"
+         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	<property name="url" value="jdbc:mysql://localhost:3306/MilkDonor" />
+	<property name="username" value="root" />
+	<property name="password" value="root" />
+</bean>
+<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+
+    <property name="dataSource">
+      <ref bean="dataSource"/>
+    </property>
+
+    <property name="hibernateProperties">
+       <props>
+         <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+         <prop key="hibernate.show_sql">true</prop>
+         <prop key="hibernate.hbm2ddl.auto">update</prop>
+       </props>
+    </property>
+
+    <property name="annotatedClasses">
+	<list>
+		<value>com.milkdonor.entity.Requestor</value>
+		<value>com.milkdonor.entity.Authentication</value>
+	</list>
+    </property>
+
+ </bean>
+ <tx:annotation-driven/>
+ <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"> 
+	<property name="sessionFactory" ref="sessionFactory" /> 
+  </bean>
+  <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">  
+  	<property name="host" value="smtp.gmail.com" />  
+    <property name="username" value="srikanthreddy.kethiri@gmail.com" />  
+    <property name="password" value="crocoile1" />  
+    <property name="javaMailProperties">  
+       <props>  
+              <prop key="mail.smtp.auth">true</prop>  
+              <prop key="mail.smtp.socketFactory.port">465</prop>  
+              <prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>  
+              <prop key="mail.smtp.port">465</prop>  
+        </props>  
+    </property>  
+  </bean>  
+</beans>
+
+  
