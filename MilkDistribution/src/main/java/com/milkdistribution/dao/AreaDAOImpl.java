@@ -2,8 +2,11 @@ package com.milkdistribution.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.milkdistribution.entity.Area;
 
+@Repository("areaDao")
 public class AreaDAOImpl extends CustomHibernateDaoSupport implements AreaDAO {
 
 	@Override

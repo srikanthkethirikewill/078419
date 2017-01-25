@@ -6,11 +6,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.milkdistribution.entity.Billing;
 import com.milkdistribution.entity.Product;
 import com.milkdistribution.entity.Roaster;
 import com.milkdistribution.entity.User;
 
+@Repository("roasterDao")
 public class RoasterDAOImpl extends CustomHibernateDaoSupport implements RoasterDAO{
 
 	@Override
@@ -22,6 +25,21 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 	@Override
 	public void delete(Date date,User user) {
 		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ?", new Object[] {user,date});
+	}
+	
+	@Override
+	public void deleteByRange(Date fromDate,Date toDate,User user) {
+		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ? and date <= ?", new Object[] {user,fromDate, toDate});
+	}
+	
+	@Override
+	public Roaster geRoasterById(String id) {
+		List<?> list = getHibernateTemplate().findByNamedQuery("findRoaster", new Object[]{id});
+		if (list == null || list.size()==0) {
+			return null;
+		}
+		
+		return (Roaster)list.get(0);
 	}
 	
 	@Override
@@ -39,6 +57,33 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 	public List<Roaster> list(Date date) {
 		// TODO Auto-generated method stub
 		List<?> list = getHibernateTemplate().find("from Roaster  r where r.date = ? and r.status = ? group by r.area", new Object[] {date, "A"});
+		List<Roaster> roasterList = new ArrayList<Roaster>();
+		for(Object obj:list) {
+			Roaster roaster=(Roaster)obj;
+			roasterList.add(roaster);
+		}
+		return roasterList;
+		/*DetachedCriteria detachedCriteria = DetachedCriteria.forClass(Roaster.class);
+		detachedCriteria.add(Restrictions.eq("", ""));
+		detachedCriteria.add(Restrictions.eq("", ""));
+		return null;*/
+		//return (List<Roaster>) getHibernateTemplate().findByCriteria(detachedCriteria);
+	}
+	
+	@Override
+	public List<Roaster> getMonthlyRoaster(String month,String year,User user) {
+		Calendar fromCalendar = Calendar.getInstance();
+		fromCalendar.set(Calendar.DAY_OF_MONTH, 1);
+		fromCalendar.set(Calendar.MONTH, Integer.parseInt(month)-1);
+		fromCalendar.set(Calendar.YEAR, Integer.parseInt(year));
+		fromCalendar.set(Calendar.HOUR, 0);
+		fromCalendar.set(Calendar.MINUTE, 0);
+		fromCalendar.set(Calendar.SECOND, 0);
+		fromCalendar.set(Calendar.MILLISECOND, 0);
+		Calendar toCalendar = (Calendar)fromCalendar.clone();
+		toCalendar.set(Calendar.MONTH, toCalendar.get(Calendar.MONTH)+1);
+		// TODO Auto-generated method stub
+		List<?> list = getHibernateTemplate().find("from Roaster  r where r.date >= ? and r.date < ? and r.user = ?", new Object[] {fromCalendar.getTime(), toCalendar.getTime(),user});
 		List<Roaster> roasterList = new ArrayList<Roaster>();
 		for(Object obj:list) {
 			Roaster roaster=(Roaster)obj;

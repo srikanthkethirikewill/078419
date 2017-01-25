@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.milkdistribution.dto.BillingDTO;
+import com.milkdistribution.dto.RoasterDTO;
 import com.milkdistribution.dto.UserDTO;
 import com.milkdistribution.entity.Area;
 import com.milkdistribution.entity.Authentication;
 import com.milkdistribution.entity.Billing;
 import com.milkdistribution.entity.Product;
 import com.milkdistribution.entity.Requestor;
+import com.milkdistribution.entity.Roaster;
 import com.milkdistribution.entity.User;
 import com.milkdistribution.service.AreaService;
 import com.milkdistribution.service.AuthenticationService;
@@ -209,5 +211,17 @@ public class MilkDistributionController {
 	@RequestMapping(value = "/updateBilling", method = RequestMethod.POST) 
 	public void updateBilling(@RequestBody RequestDTO<Billing> request) {  
 		billingService.updateBilling(request.getBody());
+	}
+	
+	@RequestMapping(value = "/getRoasterDetails", method = RequestMethod.POST)
+	public List<Roaster> getRoasterDetails(@RequestBody RequestDTO<RoasterDTO> request) {
+		RoasterDTO roasterDTO = request.getBody();
+		return roasterService.getMonthlyRoaster(roasterDTO);
+	}
+	
+	@RequestMapping(value = "/updateRoaster", method = RequestMethod.POST)
+	public void updateRoaster(@RequestBody RequestDTO<RoasterDTO> request) {
+		RoasterDTO roasterDTO = request.getBody();
+		roasterService.updateRoaster(roasterDTO);
 	}
 }

@@ -2,8 +2,11 @@ package com.milkdistribution.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.milkdistribution.entity.Product;
 
+@Repository("productDao")
 public class ProductDAOImpl extends CustomHibernateDaoSupport implements ProductDAO {
 
 	@Override

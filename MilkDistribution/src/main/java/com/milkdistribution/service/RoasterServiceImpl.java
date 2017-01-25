@@ -19,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.milkdistribution.dao.ProductDAO;
 import com.milkdistribution.dao.RoasterDAO;
 import com.milkdistribution.dao.UserDAO;
+import com.milkdistribution.dto.RoasterDTO;
 import com.milkdistribution.entity.Roaster;
 import com.milkdistribution.entity.RoasterDetail;
 import com.milkdistribution.entity.User;
@@ -38,6 +40,9 @@ public class RoasterServiceImpl implements RoasterService{
 	
 	@Autowired
 	UserDAO userDAO;
+	
+	@Autowired
+	ProductDAO productDAO;
 
 	@Override
 	public void generateRoaster() throws Exception {
@@ -105,6 +110,12 @@ public class RoasterServiceImpl implements RoasterService{
 	}
 	
 	@Override
+	public List<Roaster> getMonthlyRoaster(RoasterDTO roasterDTO) {
+		User user = userDAO.getUser(roasterDTO.getUser().getId());
+		return roasterDAO.getMonthlyRoaster(roasterDTO.getMonth(), roasterDTO.getYear(), user);
+	}
+	
+	@Override
 	public void saveRoaster(User user) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)+2);
@@ -137,6 +148,46 @@ public class RoasterServiceImpl implements RoasterService{
 			roasterDAO.save(roaster);
 			calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
 			m = calendar.get(Calendar.MONTH);
+		}
+	}
+	
+	@Override
+	public void updateRoaster(RoasterDTO roasterDTO) {
+		String fromDate = roasterDTO.getFromDate();
+		String toDate = roasterDTO.getToDate();
+		String[] fromDateArray = fromDate.split("/");
+		String[] toDateArray = toDate.split("/");
+		Calendar fromCalendar = Calendar.getInstance();
+		fromCalendar.set(Calendar.DATE, Integer.parseInt(fromDateArray[0]));
+		fromCalendar.set(Calendar.MONTH, Integer.parseInt(fromDateArray[1]));
+		fromCalendar.set(Calendar.YEAR, Integer.parseInt(fromDateArray[2]));
+		fromCalendar.set(Calendar.HOUR, 0);
+		fromCalendar.set(Calendar.MINUTE, 0);
+		fromCalendar.set(Calendar.SECOND, 0);
+		fromCalendar.set(Calendar.MILLISECOND, 0);
+		Calendar toCalendar = Calendar.getInstance();
+		toCalendar.set(Calendar.DATE, Integer.parseInt(toDateArray[0]));
+		toCalendar.set(Calendar.MONTH, Integer.parseInt(toDateArray[1]));
+		toCalendar.set(Calendar.YEAR, Integer.parseInt(toDateArray[2]));
+		toCalendar.set(Calendar.HOUR, 0);
+		toCalendar.set(Calendar.MINUTE, 0);
+		toCalendar.set(Calendar.SECOND, 0);
+		toCalendar.set(Calendar.MILLISECOND, 0);
+		User user = userDAO.getUser(roasterDTO.getUser().getId());
+		roasterDAO.deleteByRange(fromCalendar.getTime(), toCalendar.getTime(), user);
+		Set<RoasterDetail> roasterDetails = roasterDTO.getRoasterDetails();
+		for(RoasterDetail detail:roasterDetails) {
+			detail.setProduct(productDAO.getProduct(detail.getProduct().getId()));
+		}
+		while (toCalendar.compareTo(fromCalendar) >= 0 ) {
+			Roaster roaster = new Roaster();
+			roaster.setArea(user.getArea());
+			roaster.setDate(fromCalendar.getTime());
+			roaster.setStatus("A");
+			roaster.setUser(user);
+			roaster.setRoasterDetails(roasterDetails);
+			roasterDAO.save(roaster);
+			fromCalendar.set(Calendar.DATE, fromCalendar.get(Calendar.DATE)+1);
 		}
 	}
 	

@@ -24,6 +24,10 @@ import org.hibernate.annotations.GenericGenerator;
 	@NamedQuery(
 	name = "monthlyBill",
 	query = "from Roaster s where s.status = ? and s.date >= ? and s.date<= ? group by s.user"
+	),
+	@NamedQuery(
+	name = "findRoaster",
+	query = "from Roaster s where s.id = ?"
 	)
 })
 
@@ -95,7 +99,7 @@ public class Roaster {
 		this.area = area;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "roaster")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "roaster", orphanRemoval = true)
 	public Set<RoasterDetail> getRoasterDetails() {
 		return roasterDetails;
 	}

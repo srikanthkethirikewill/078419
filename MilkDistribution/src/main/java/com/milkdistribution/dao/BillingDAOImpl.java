@@ -3,8 +3,11 @@ package com.milkdistribution.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.milkdistribution.entity.Billing;
 
+@Repository("billingDao")
 public class BillingDAOImpl extends CustomHibernateDaoSupport implements BillingDAO {
 
 	@Override

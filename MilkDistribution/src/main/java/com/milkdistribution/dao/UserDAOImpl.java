@@ -3,8 +3,11 @@ package com.milkdistribution.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.milkdistribution.entity.User;
 
+@Repository("userDao")
 public class UserDAOImpl  extends CustomHibernateDaoSupport implements UserDAO {
 
 	@Override

@@ -19,5 +19,11 @@ public interface RoasterDAO {
 	List<Billing> prepareBilling();
 	
 	void updateProductCosts(Product product);
+	
+	List<Roaster> getMonthlyRoaster(String month,String year,User user);
+	
+	Roaster geRoasterById(String id);
+	
+	void deleteByRange(Date fromDate,Date toDate,User user);
 
 }
