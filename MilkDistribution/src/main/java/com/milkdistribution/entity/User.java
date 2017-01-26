@@ -151,7 +151,7 @@ public class User {
 		this.area = area;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "USER_DAILY_REQUIREMENT", orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "user", orphanRemoval = true)
 	public Set<UserDailyRequirement> getRequirement() {
 		return requirement;
 	}

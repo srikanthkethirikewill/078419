@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,38 +14,28 @@ import com.milkdistribution.dto.BillingDTO;
 import com.milkdistribution.dto.RoasterDTO;
 import com.milkdistribution.dto.UserDTO;
 import com.milkdistribution.entity.Area;
-import com.milkdistribution.entity.Authentication;
 import com.milkdistribution.entity.Billing;
 import com.milkdistribution.entity.Product;
-import com.milkdistribution.entity.Requestor;
 import com.milkdistribution.entity.Roaster;
 import com.milkdistribution.entity.User;
 import com.milkdistribution.service.AreaService;
-import com.milkdistribution.service.AuthenticationService;
 import com.milkdistribution.service.BillingService;
 import com.milkdistribution.service.ProductService;
-import com.milkdistribution.service.RequestorService;
 import com.milkdistribution.service.RoasterService;
 import com.milkdistribution.service.UserService;
-import com.milkdistribution.vo.Header;
 import com.milkdistribution.vo.RequestDTO;
-import com.milkdistribution.vo.RequestorList;
+import com.milkdistribution.vo.ResponseDTO;
+
 
 
 @RestController
 public class MilkDistributionController {
 	
 	@Autowired
-	RequestorService requestorService;
-	
-	@Autowired
 	RoasterService roasterService;
 	
 	@Autowired
 	BillingService billingService;
-	
-	@Autowired
-	AuthenticationService authenticationService;
 	
 	@Autowired
 	UserService userService;
@@ -57,51 +46,9 @@ public class MilkDistributionController {
 	@Autowired
 	ProductService productService;
 			
-	@RequestMapping(value = "/createRequest", method = RequestMethod.POST, headers = {"Accept=application/json","Content-type=application/json"}) 
-	public Requestor createRequest(@RequestBody RequestDTO<Requestor> request) {  
-	    Requestor requestor = request.getBody();
-	    Header header = request.getHeader();
-	    Authentication authentication = authenticationService.getAuthentication(header.getDeviceId());
-	    if (authentication == null || (!authentication.getOtp().equals(header.getOtp()))) {
-	    	return null;
-	    }
-	    requestor.setAuthentication(authentication);
-	    requestorService.save(requestor);
-	    return requestor;
-	}
 	
-	@RequestMapping(value = "/createOTP", method = RequestMethod.POST, headers = {"Accept=application/json","Content-type=application/json"}) 
-	public Authentication createOTP(@RequestBody RequestDTO<Authentication> request) {  
-	    Authentication authentication = request.getBody();
-	    Authentication updatedAuthentication = authenticationService.getAuthentication(authentication.getMobileNumber());
-	    if (updatedAuthentication == null) {
-	    	authenticationService.save(authentication);
-	    	return authentication;
-	    } else {
-	    	authenticationService.update(updatedAuthentication);
-	    	return updatedAuthentication;
-	    }	    
-	}
 	
-	@RequestMapping(value = "/validateOTP", method = RequestMethod.POST) 
-	public Authentication validateOTP(@RequestBody RequestDTO<Authentication> request) {  
-	    Authentication authentication = request.getBody();
-	    String otp = authentication.getOtp();
-	    authentication = authenticationService.getAuthentication(authentication.getMobileNumber());
-	    if (authentication == null || (!authentication.getOtp().equals(otp))) {
-	    	return null;
-	    }
-	    return authentication;
-	}
 	
-	@RequestMapping(value = "/listRequestors", method = RequestMethod.GET) 
-	@ResponseBody
-	public RequestorList getRequestors() {		
-		
-		RequestorList list = new RequestorList();
-		list.setList(requestorService.list());
-	    return list;
-	}
 	
 	@Scheduled(cron="0 0 2 1/1 * ? *")
 	public void generateRoasters() throws Exception {
@@ -114,62 +61,82 @@ public class MilkDistributionController {
 	}
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST) 
-	public void createUser(@RequestBody RequestDTO<UserDTO> request) {  
+	public ResponseDTO<String> createUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO user = request.getBody();
 	    userService.createUser(user);
+	    ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+	    return responseDTO;
 	}
 	
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST) 
-	public void updateUser(@RequestBody RequestDTO<UserDTO> request) {  
+	public ResponseDTO<String> updateUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO user = request.getBody();
 		userService.updateUser(user);
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+	    return responseDTO;
 	}
 	
 	@RequestMapping(value = "/verifyUser", method = RequestMethod.POST) 
-	public void verifyUser(@RequestBody RequestDTO<UserDTO> request) {  
+	public ResponseDTO<String> verifyUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO user = request.getBody();
 		userService.verifyUser(user);
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+	    return responseDTO;
 	}
 	
 	@RequestMapping(value = "/validateyUser", method = RequestMethod.POST) 
-	public User validateUser(@RequestBody RequestDTO<UserDTO> request) {  
+	public ResponseDTO<User> validateUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO userDTO = request.getBody();
 		User user = userService.validateUser(userDTO);
-	    return user;
+		ResponseDTO<User> responseDTO = new ResponseDTO<User>();
+		responseDTO.setBody(user);
+	    return responseDTO;
 	}
 	
 	@RequestMapping(value = "/forgotUserDetails", method = RequestMethod.POST) 
-	public User forgotUserDetails(@RequestBody RequestDTO<UserDTO> request) {  
+	public ResponseDTO<User> forgotUserDetails(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO userDTO = request.getBody();
 		User user = userService.forgotUserDetails(userDTO);
-	    return user;
+		ResponseDTO<User> responseDTO = new ResponseDTO<User>();
+		responseDTO.setBody(user);
+	    return responseDTO;
 	}
 	
 	@RequestMapping(value = "/pendingUsers", method = RequestMethod.POST) 
-	public UserDTO getPendingUsers() {  
+	public ResponseDTO<List<User>> getPendingUsers() {  
 		UserDTO userDTO = userService.getPendingUsers();
-	    return userDTO;
+		ResponseDTO<List<User>> responseDTO = new ResponseDTO<List<User>>();
+		responseDTO.setBody(userDTO.getUsers());
+	    return responseDTO;
 	}
 	
 	@RequestMapping(value = "/activeUsers", method = RequestMethod.POST) 
-	public UserDTO getActiveUsers() {  
+	public ResponseDTO<List<User>> getActiveUsers() {  
 		UserDTO userDTO = userService.getVerifiedUsers();
-	    return userDTO;
+		ResponseDTO<List<User>> responseDTO = new ResponseDTO<List<User>>();
+		responseDTO.setBody(userDTO.getUsers());
+	    return responseDTO;
 	}
 	
 	@RequestMapping(value = "/getAreas", method = RequestMethod.POST) 
-	public List<Area> getAreas(@RequestBody RequestDTO<UserDTO> request) {  
-		return areaService.getList();
+	public ResponseDTO<List<Area>> getAreas(@RequestBody RequestDTO<UserDTO> request) { 
+		ResponseDTO<List<Area>> responseDTO = new ResponseDTO<List<Area>>();
+		responseDTO.setBody(areaService.getList());
+	    return responseDTO;
 	}
 	
 	@RequestMapping(value = "/createArea", method = RequestMethod.POST) 
-	public void createArea(@RequestBody RequestDTO<Area> request) {  
+	public ResponseDTO<String> createArea(@RequestBody RequestDTO<Area> request) {  
 		areaService.createArea(request.getBody());
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+		return responseDTO;
 	}
 	
 	@RequestMapping(value = "/updateArea", method = RequestMethod.POST) 
-	public void updateArea(@RequestBody RequestDTO<Area> request) {  
+	public ResponseDTO<String> updateArea(@RequestBody RequestDTO<Area> request) {  
 		areaService.updateArea(request.getBody());
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+		return responseDTO;
 	}
 	
 	/*@RequestMapping(value = "/deleteArea", method = RequestMethod.POST) 
@@ -178,18 +145,24 @@ public class MilkDistributionController {
 	}*/
 	
 	@RequestMapping(value = "/getProducts", method = RequestMethod.POST) 
-	public List<Product> getProducts(@RequestBody RequestDTO<UserDTO> request) {  
-		return productService.getList();
+	public ResponseDTO<List<Product>> getProducts(@RequestBody RequestDTO<UserDTO> request) {  
+		ResponseDTO<List<Product>> responseDTO = new ResponseDTO<List<Product>>();
+		responseDTO.setBody(productService.getList());
+		return responseDTO;
 	}
 	
 	@RequestMapping(value = "/createProduct", method = RequestMethod.POST) 
-	public void createProduct(@RequestBody RequestDTO<Product> request) {  
+	public ResponseDTO<String> createProduct(@RequestBody RequestDTO<Product> request) {  
 		productService.createProduct(request.getBody());
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+		return responseDTO;
 	}
 	
 	@RequestMapping(value = "/updateProduct", method = RequestMethod.POST) 
-	public void updateProduct(@RequestBody RequestDTO<Product> request) {  
+	public ResponseDTO<String> updateProduct(@RequestBody RequestDTO<Product> request) {  
 		productService.updateProduct(request.getBody());
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+		return responseDTO;
 	}
 	
 	
@@ -200,28 +173,36 @@ public class MilkDistributionController {
 	}*/
 	
 	@RequestMapping(value = "/getBillingList", method = RequestMethod.POST) 
-	public List<Billing> getBillingList(@RequestBody RequestDTO<BillingDTO> request) { 
+	public ResponseDTO<List<Billing>> getBillingList(@RequestBody RequestDTO<BillingDTO> request) { 
 		BillingDTO billingDTO = request.getBody();
 		billingService.getBillingList(billingDTO);
-		return billingDTO.getBillList();		
+		ResponseDTO<List<Billing>> responseDTO = new ResponseDTO<List<Billing>>();
+		responseDTO.setBody(billingDTO.getBillList());
+		return responseDTO;
 	}
 	
 	
 	
 	@RequestMapping(value = "/updateBilling", method = RequestMethod.POST) 
-	public void updateBilling(@RequestBody RequestDTO<Billing> request) {  
+	public ResponseDTO<String> updateBilling(@RequestBody RequestDTO<Billing> request) {  
 		billingService.updateBilling(request.getBody());
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+		return responseDTO;
 	}
 	
 	@RequestMapping(value = "/getRoasterDetails", method = RequestMethod.POST)
-	public List<Roaster> getRoasterDetails(@RequestBody RequestDTO<RoasterDTO> request) {
+	public ResponseDTO<List<Roaster>> getRoasterDetails(@RequestBody RequestDTO<RoasterDTO> request) {
 		RoasterDTO roasterDTO = request.getBody();
-		return roasterService.getMonthlyRoaster(roasterDTO);
+		ResponseDTO<List<Roaster>> responseDTO = new ResponseDTO<List<Roaster>>();
+		responseDTO.setBody(roasterService.getMonthlyRoaster(roasterDTO));
+		return responseDTO;
 	}
 	
 	@RequestMapping(value = "/updateRoaster", method = RequestMethod.POST)
-	public void updateRoaster(@RequestBody RequestDTO<RoasterDTO> request) {
+	public ResponseDTO<String> updateRoaster(@RequestBody RequestDTO<RoasterDTO> request) {
 		RoasterDTO roasterDTO = request.getBody();
 		roasterService.updateRoaster(roasterDTO);
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+		return responseDTO;
 	}
 }

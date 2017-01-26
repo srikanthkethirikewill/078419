@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -23,6 +24,8 @@ public class UserDailyRequirement {
 	private Product product;
 	
 	private int qty;
+	
+	private User user;
 	
 	
 
@@ -55,5 +58,17 @@ public class UserDailyRequirement {
 	public void setQty(int qty) {
 		this.qty = qty;
 	}
+	
+	@ManyToOne(fetch= FetchType.EAGER)
+	@JoinColumn(name= "USER_ID")
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 	
 }
