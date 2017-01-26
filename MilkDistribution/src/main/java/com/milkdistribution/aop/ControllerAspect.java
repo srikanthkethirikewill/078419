@@ -4,6 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
+import com.milkdistribution.vo.RequestDTO;
 import com.milkdistribution.vo.ResponseDTO;
 import com.milkdistribution.vo.Result;
 
@@ -16,8 +17,11 @@ public class ControllerAspect {
 		ResponseDTO<?> responseDTO = null;
 		Result result = null;
 		try {
-			result = new Result();
+			Object[] parameters = joinPoint.getArgs();
+			RequestDTO<?> requestDTO = (RequestDTO<?>)parameters[0];			
+			result = new Result();			
 			responseDTO = (ResponseDTO<?>)joinPoint.proceed();
+			responseDTO.setHeader(requestDTO.getHeader());
 			result.setMessage("success");
 			responseDTO.setResult(result);
 		} catch (Exception ex) {

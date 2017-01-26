@@ -2,6 +2,8 @@ package com.milkdistribution.vo;
 
 public class ResponseDTO<T> {
 	
+	private Header header;
+	
 	private Result result;
 	
 	private T body;
@@ -20,6 +22,14 @@ public class ResponseDTO<T> {
 
 	public void setBody(T body) {
 		this.body = body;
+	}
+
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
 	}
 	
 	

@@ -2,21 +2,11 @@ package com.milkdistribution.vo;
 
 public class Header {
 	
-	private String isBrowser;
-	
 	private String deviceId;
 	
-	private String version;
+	private String serviceName;
+
 	
-	private String otp;
-
-	public String getIsBrowser() {
-		return isBrowser;
-	}
-
-	public void setIsBrowser(String isBrowser) {
-		this.isBrowser = isBrowser;
-	}
 
 	public String getDeviceId() {
 		return deviceId;
@@ -26,20 +16,14 @@ public class Header {
 		this.deviceId = deviceId;
 	}
 
-	public String getVersion() {
-		return version;
+	public String getServiceName() {
+		return serviceName;
 	}
 
-	public void setVersion(String version) {
-		this.version = version;
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
 	}
 
-	public String getOtp() {
-		return otp;
-	}
-
-	public void setOtp(String otp) {
-		this.otp = otp;
-	}
+	
 
 }
