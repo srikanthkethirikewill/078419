@@ -50,12 +50,12 @@ public class MilkDistributionController {
 	
 	
 	
-	@Scheduled(cron="0 0 2 1/1 * ? *")
+	@Scheduled(cron="0 0 2 * * ?")
 	public void generateRoasters() throws Exception {
 		roasterService.generateRoaster();
 	}
 	
-	@Scheduled(cron="0 0 20 L * ? *")
+	@Scheduled(cron="0 0 20 28-31 * ?")
 	public void generateBilling() {
 		billingService.performBilling();
 	}

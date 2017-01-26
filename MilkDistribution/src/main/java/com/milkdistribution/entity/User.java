@@ -156,7 +156,7 @@ public class User {
 		return requirement;
 	}
 	
-	public void setRequirment(Set<UserDailyRequirement> requirement) {
+	public void setRequirement(Set<UserDailyRequirement> requirement) {
 		this.requirement = requirement;
 	}
 
