@@ -1,6 +1,7 @@
 package com.milkdistribution.controller;
 
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,11 @@ public class MilkDistributionController {
 	
 	@Scheduled(cron="0 0 20 28-31 * ?")
 	public void generateBilling() {
-		billingService.performBilling();
+		Calendar calendar = Calendar.getInstance();
+		if (calendar.get(Calendar.DATE) == calendar.getActualMaximum(Calendar.DATE)) {
+			billingService.performBilling();
+		}
+		
 	}
 
 	@RequestMapping(value = "/createUser", method = RequestMethod.POST) 
