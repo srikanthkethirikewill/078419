@@ -1,0 +1,81 @@
+/*form*/
+.table_list li .ui-input-text {
+  margin-bottom: 15px;
+}
+#section_table >ul>li {
+  margin-top: 10px;
+}
+
+.ui-front {
+  z-index: 9000;
+}
+#custom_btn{
+  background-color: #fdb819;
+  color: #fff;
+  border-color: #fdb819;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+#saveBtn{
+  background-color: #ccc;
+  border-color: #ddd;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+#add_row_btn{
+  color: #3791d2;
+  padding-left: 0px;
+}
+.ui-input-text {
+    background: none !important;
+    margin-bottom: 2px;
+}
+
+.ui-listview > .ui-li-static{
+  padding-bottom: 0;
+  padding-top: 10px;
+}
+.app_icon {
+  border-radius: 3px;
+  font-size: 20px;
+  padding: 10px;
+  vertical-align: top;
+  margin-right: 5px;
+}
+#section_header{
+  margin-bottom: 0px;
+  margin-top: 15px;
+}
+#main_section_header{
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+/* login form */
+#txt_email{
+  margin-top: 15px;
+}
+#signin_btn{
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+/* DashBoard */
+#dashboard_box{
+  padding: 15px;
+}
+
+
+/*Left Panel*/
+.ui-panel.ui-panel-display-overlay.ui-panel-open {
+  background: #fff;
+}
+#profile_img{
+  border-radius: 50px;
+  height: 70px;
+  width: 70px;
+}
+/*.panel_li{
+  border-bottom: 1px solid #ddd;
+}
+#panelList{
+  margin-top: -20px;
+} */
