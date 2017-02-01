@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html>
+	
+    <head>
+		<title>sample</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="mobile-web-app-capable" content="yes">
+	 	<meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<link rel="stylesheet" href="css/jquery-ui-1.11.1.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+
+		<!-- custom alert loading spinner libraries -->
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+		<link rel="stylesheet" type="text/css" href="css/waitMe.css" />
+		<script src="lib/jquery.min.js"></script>
+		<script src="lib/jquery.mobile-1.4.5.js"></script>
+
+		<!-- custom alert and spinner libraries -->
+		<script src="lib/sweetalert.min.js"></script>
+		<script src="lib/waitMe.min.js"></script>
+
+
+		<script src="js/bbconfig.js"></script>
+		<script src="js/bblib.js"></script>
+
+
+		 <!--  Customized css   -->
+
+			<style>
+			
+
+			</style>
+
+	</head>
+	<body>
+		<div data-role="page" id="login">
+            
+  			<div role="main" class="ui-content" data-inset="false" >
+              <h3 style="text-align:center"><img src="images/logo.png">
+             
+              <ul data-role="listview" data-inset="true">
+                  <li class="ui-field-contain">
+                      <input name="email" id="txt_email" value="" data-clear-btn="true" type="text" placeholder="Email Address">
+                  </li>
+                  <li class="ui-field-contain">
+                      <input name="password" id="txt_pwd" value="" data-clear-btn="true" type="password" placeholder="Password">
+                          </li>
+                  <li class="ui-body ui-body-b">
+                      <fieldset id="signin_btn" class="ui-grid-a">
+                          <a href="#" id="signin" class="ui-btn ui-btn-raised clr-primary">Sign In</a>
+                      </fieldset>
+                  </li>
+              </ul>
+			  
+			  <p style="text-align:center;" class="clr-cyan" id="forgotpwd" data-transition="slideup">Forgot Password?</a></p>
+       
+        </div>
+            
+            
+        <div data-role="popup" id="popupFpwd" data-theme="e" class="ui-corner-all">
+             <div data-role="header" class="wow fadeIn" ><h4 style="text-align:center; font-size:1em">Forgot Password?</h4></div>
+                 
+            <form style="background-color:#fff">
+                <div style="padding:2px 20px;" data-inset="true"  >
+                    <h5>Please enter your e-mail address and we will send you a confirmation mail to reset your password.</h5>
+                    
+                    <ul data-role="listview" data-inset="true">
+                        <li class="ui-field-contain">
+                            <input name="forgot_email" id="forgot_email" value="" type="text" placeholder="Email Address">
+                        </li>
+                        
+                        <li class="ui-field-contain">
+                            <button type="submit" data-theme="b" id="forgot_submit">Submit</button>
+                           
+                                </li>
+                        <li class="ui-body ui-body-b"> </li>
+
+
+                    </ul>
+                    
+                    
+                                              </div>
+            </form>
+        </div>  <!-- /popup -->
+            
+            
+    </div>
+
+
+
+
+    <div data-role="page" id="dashboard">
+
+
+        <div data-role="header" data-position="fixed" class="wow fadeIn">
+
+             <a href="#dashboard-panel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
+
+            <h1 class="wow fadeIn he-center" data-wow-delay='0.4s'>Dashboard</h1>
+
+        </div><!-- /header -->
+
+       		<div data-role="panel"  id="dashboard-panel" data-display="overlay" data-position-fixed="true" >
+
+        </div>
+
+        <div role="main" class="ui-content" id="dashboard-content">
+
+        </div><!-- /content -->
+
+
+    </div><!-- /page -->
+
+
+    <div data-role="page" id="listings">
+
+             <div data-role="header" data-position="fixed" class="wow fadeIn">
+
+             <a href="#listings-panel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
+
+            <h1 id="listings_title" class="wow fadeIn he-center" data-wow-delay='0.4s'>Pending Approvals</h1>
+
+        </div><!-- /header -->
+
+       	<div data-role="panel" id="listings-panel" data-display="overlay" data-position-fixed="true" >
+       	</div> <!-- /panel -->
+
+        <div role="main" class="ui-content" id="listings-content">
+        </div><!-- /content -->
+
+
+    </div><!-- /page -->
+
+
+    <div data-role="page" id="apps">
+
+        <div data-role="header" data-position="fixed" class="wow fadeIn">
+
+             <a href="#apps-panel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
+
+            <h1 class="wow fadeIn he-center" data-wow-delay='0.4s'>Create New</h1>
+
+        </div><!-- /header -->
+
+       	<div data-role="panel" id="apps-panel" data-display="overlay" data-position-fixed="true" >
+
+        </div> <!-- /panel -->
+
+        <div role="main" class="ui-content" id="apps-content">
+        </div><!-- /content -->
+
+
+    </div><!-- /page -->
+
+
+
+
+    <div data-role="page" id="appform">
+
+      <div data-role="header" data-position="fixed" class="wow fadeIn">
+          
+             <a href="#appform-panel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
+             <a href="#bottomsheet" id="morebutton" class="ui-btn ui-btn-right wow fadeIn" data-wow-delay='1.2s'><i class="zmdi zmdi-more-vert"></i></a>
+
+            <h1 id="app_form_title" class="wow fadeIn he-center" data-wow-delay='0.4s'>Create New</h1>
+
+        </div><!-- /header -->
+
+        <div data-role="panel" id="appform-panel" data-display="overlay" data-position-fixed="true" >
+         </div> <!-- /panel -->
+        
+        <div data-role="panel" id="bottomsheet" data-animate="false" data-position='bottom' data-display="overlay">
+            
+            
+            <div class='row around-xs'>
+                <div class='col-xs-auto'>
+                    <a href='#' id="pdf_download2" class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button' data-ajax='false'><i class='zmdi zmdi-collection-pdf zmd-2x'></i><strong>Download</strong></a>
+                </div>
+                <div class='col-xs-auto'>
+                    <a href='#' id="send_email" class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button' data-ajax='false'><i class='zmdi zmdi-email zmd-2x'></i><strong>Send Email</strong></a>
+                </div>
+                
+            </div>
+            
+            
+        </div><!-- /bottom action sheet -->
+
+
+        <div role="main" class="ui-content">
+						<form  action="#" name="appEntity" id="appform-content" class="form_class" onsubmit="return false;">
+						</form>
+        </div><!-- /content -->
+
+    </div><!-- /page -->
+
+
+
+	</body>
+</html>
