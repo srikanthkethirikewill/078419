@@ -49,14 +49,16 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		getHibernateTemplate().bulkUpdate("update RoasterDetail s set s.rate = ? where s.roaster.product = ? and s.roaster.date >= ?", new Object[] {product.getPrice(),product, calendar.getTime()});
+		java.sql.Date dateObj = new java.sql.Date(calendar.getTime().getTime());
+		getHibernateTemplate().bulkUpdate("update RoasterDetail s set s.rate = ? where s.roaster.product = ? and s.roaster.date >= ?", new Object[] {product.getPrice(),product, dateObj});
 		
 	}
 
 	@Override
 	public List<Roaster> list(Date date) {
 		// TODO Auto-generated method stub
-		List<?> list = getHibernateTemplate().find("from Roaster  r where r.date = ? and r.status = ? group by r.area", new Object[] {date, "A"});
+		java.sql.Date dateObj = new java.sql.Date(date.getTime());
+		List<?> list = getHibernateTemplate().find("from Roaster  r where r.date = ? and r.status = ? order by r.area", new Object[] {dateObj, "A"});
 		List<Roaster> roasterList = new ArrayList<Roaster>();
 		for(Object obj:list) {
 			Roaster roaster=(Roaster)obj;
@@ -83,7 +85,9 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		Calendar toCalendar = (Calendar)fromCalendar.clone();
 		toCalendar.set(Calendar.MONTH, toCalendar.get(Calendar.MONTH)+1);
 		// TODO Auto-generated method stub
-		List<?> list = getHibernateTemplate().find("from Roaster  r where r.date >= ? and r.date < ? and r.user = ?", new Object[] {fromCalendar.getTime(), toCalendar.getTime(),user});
+		java.sql.Date fromDateObj = new java.sql.Date(fromCalendar.getTime().getTime());
+		java.sql.Date toDateObj = new java.sql.Date(toCalendar.getTime().getTime());
+		List<?> list = getHibernateTemplate().find("from Roaster  r where r.date >= ? and r.date < ? and r.user = ?", new Object[] {fromDateObj, toDateObj,user});
 		List<Roaster> roasterList = new ArrayList<Roaster>();
 		for(Object obj:list) {
 			Roaster roaster=(Roaster)obj;
@@ -100,7 +104,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 	@Override
 	public List<Billing> prepareBilling() {
 		// TODO Auto-generated method stub
-		String query = "select s.user,sum(s.billAmount) from Roaster s where s.status = ? and s.date >= ? and s.date<= ? group by s.user";
+		String query = "select s.user,(select sum(d.rate) from RoasterDetail d where d.roaster = s group by d.roaster) from Roaster s where s.status = ? and s.date >= ? and s.date<= ? group by s.user";
 		Calendar fromCalendar = Calendar.getInstance();
 		fromCalendar.set(Calendar.DAY_OF_MONTH, 1);
 		fromCalendar.set(Calendar.HOUR, 0);
@@ -114,7 +118,9 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		toCalendar.set(Calendar.MILLISECOND, 0);
 		DateFormatSymbols symbols = new DateFormatSymbols();
 		String month = symbols.getMonths()[fromCalendar.get(Calendar.MONTH)];
-		Object[] values = new Object[] {"A", fromCalendar.getTime(), toCalendar.getTime()};
+		java.sql.Date fromDateObj = new java.sql.Date(fromCalendar.getTime().getTime());
+		java.sql.Date toDateObj = new java.sql.Date(toCalendar.getTime().getTime());
+		Object[] values = new Object[] {"A", fromDateObj, toDateObj};
 		List<?> list = getHibernateTemplate().find(query, values);
 		List<Billing> billingList = new ArrayList<Billing>();
 		for(Object obj:list) {

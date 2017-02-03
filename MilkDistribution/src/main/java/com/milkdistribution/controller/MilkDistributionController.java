@@ -210,4 +210,11 @@ public class MilkDistributionController {
 		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
 		return responseDTO;
 	}
+	
+	@RequestMapping(value = "/createRoasters", method = RequestMethod.POST)
+	public ResponseDTO<String> createRoasters(@RequestBody RequestDTO<String> request)throws Exception {
+		roasterService.createRoasters();
+		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
+		return responseDTO;
+	}
 }

@@ -98,16 +98,18 @@ public class UserServiceImpl implements UserService {
 			user.setArea(area);
 		}
 		Set<UserDailyRequirement> requirement = user.getRequirement();
-		if(requirement != null) {
-			for (UserDailyRequirement req:requirement) {
-				Product product = productDAO.getProduct(req.getProduct().getId());
-				req.setProduct(product);
-			}
-		}
+		
 		User userObj = null;
 		if (user.getId() != null) {
 			userObj = userDAO.getUser(user.getId());
 			userObj.getRequirement().clear();
+			if(requirement != null) {
+				for (UserDailyRequirement req:requirement) {
+					Product product = productDAO.getProduct(req.getProduct().getId());
+					req.setProduct(product);
+					req.setUser(userObj);
+				}
+			}
 			userObj.getRequirement().addAll(requirement);
 			userObj.setAddress(user.getAddress());
 			userObj.setArea(user.getArea());
@@ -120,6 +122,13 @@ public class UserServiceImpl implements UserService {
 			userObj.setUserId(user.getUserId());
 		} else {
 			userObj = user;
+			if(requirement != null) {
+				for (UserDailyRequirement req:requirement) {
+					Product product = productDAO.getProduct(req.getProduct().getId());
+					req.setProduct(product);
+					req.setUser(userObj);
+				}
+			}
 		}
 		return userObj;
 	}

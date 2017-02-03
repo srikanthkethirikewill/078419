@@ -18,5 +18,6 @@ public interface RoasterService {
 	List<Roaster> getMonthlyRoaster(RoasterDTO roasterDTO);
 	
 	void updateRoaster(RoasterDTO roaster);
-
+	
+	void createRoasters();
 }

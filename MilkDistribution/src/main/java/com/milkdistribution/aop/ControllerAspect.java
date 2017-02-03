@@ -11,13 +11,17 @@ import com.milkdistribution.vo.Result;
 @Aspect
 public class ControllerAspect {
 	
-	@Around("execution(public ResponseDTO com.milkdistribution.controller.MilkDistributionController.*(..))")
+	@Around("execution(* com.milkdistribution.controller.MilkDistributionController.*(..))")
     public ResponseDTO<?> logAroundAllMethods(ProceedingJoinPoint joinPoint) throws Throwable 
     {
 		ResponseDTO<?> responseDTO = null;
 		Result result = null;
 		try {
 			Object[] parameters = joinPoint.getArgs();
+			if (parameters == null || parameters.length == 0) {
+				joinPoint.proceed();
+				return null;
+			}
 			RequestDTO<?> requestDTO = (RequestDTO<?>)parameters[0];			
 			result = new Result();			
 			responseDTO = (ResponseDTO<?>)joinPoint.proceed();

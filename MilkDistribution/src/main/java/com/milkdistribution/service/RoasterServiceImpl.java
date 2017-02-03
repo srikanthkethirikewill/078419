@@ -18,7 +18,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.milkdistribution.dao.ProductDAO;
 import com.milkdistribution.dao.RoasterDAO;
 import com.milkdistribution.dao.UserDAO;
@@ -43,6 +42,8 @@ public class RoasterServiceImpl implements RoasterService{
 	
 	@Autowired
 	ProductDAO productDAO;
+	
+	
 
 	@Override
 	public void generateRoaster() throws Exception {
@@ -61,6 +62,7 @@ public class RoasterServiceImpl implements RoasterService{
 			String area = roaster.getArea().getDescription();
 			if (!area.equals(previousArea)) {
 				sheet = book.createSheet(area);
+				previousArea = area;
 				HSSFRow rowhead = sheet.createRow((short)0);
 	            rowhead.createCell(0).setCellValue("Address");
 	            rowhead.createCell(1).setCellValue("User");
@@ -142,9 +144,11 @@ public class RoasterServiceImpl implements RoasterService{
 				double productPrice = requirement.getProduct().getPrice();
 				detail.setRate(productPrice);
 				price = price + productPrice;
+				detail.setRoaster(roaster);
 				roasterDetails.add(detail);
 			}
 			roaster.setAmount(price);
+			roaster.setRoasterDetails(roasterDetails);
 			roasterDAO.save(roaster);
 			calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
 			m = calendar.get(Calendar.MONTH);
@@ -185,6 +189,9 @@ public class RoasterServiceImpl implements RoasterService{
 			roaster.setDate(fromCalendar.getTime());
 			roaster.setStatus("A");
 			roaster.setUser(user);
+			for(RoasterDetail detail:roasterDetails) {
+				detail.setRoaster(roaster);
+			}
 			roaster.setRoasterDetails(roasterDetails);
 			roasterDAO.save(roaster);
 			fromCalendar.set(Calendar.DATE, fromCalendar.get(Calendar.DATE)+1);
@@ -217,12 +224,59 @@ public class RoasterServiceImpl implements RoasterService{
 				double productPrice = requirement.getProduct().getPrice();
 				detail.setRate(productPrice);
 				price = price + productPrice;
+				detail.setRoaster(roaster);
 				roasterDetails.add(detail);
 			}
 			roaster.setAmount(price);
+			roaster.setRoasterDetails(roasterDetails);
 			roasterDAO.save(roaster);
 			calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
 			m = calendar.get(Calendar.MONTH);
+		}
+	}
+	
+	@Override
+	public void createRoasters() {
+		List<User> userList = userDAO.getActiveUsers();
+		for(User user:userList) {
+			
+			
+				Calendar calendar = Calendar.getInstance();
+				int month = calendar.get(Calendar.MONTH);
+				int m = month;
+				calendar.set(Calendar.DAY_OF_MONTH, 1);
+				calendar.set(Calendar.HOUR, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				while (m<=(month+1)) {
+					Roaster roaster = new Roaster();
+					roaster.setArea(user.getArea());
+					roaster.setDate(calendar.getTime());
+					roaster.setStatus("A");
+					roaster.setUser(user);
+					double price =0;
+					Set<RoasterDetail> roasterDetails = new HashSet<RoasterDetail>();
+					Set<UserDailyRequirement> requirements = user.getRequirement();
+					for (UserDailyRequirement requirement: requirements) {
+						RoasterDetail detail = new RoasterDetail();
+						detail.setProduct(requirement.getProduct());
+						detail.setQty(requirement.getQty());
+						double productPrice = requirement.getProduct().getPrice();
+						detail.setRate(productPrice);
+						price = price + productPrice;
+						detail.setRoaster(roaster);
+						roasterDetails.add(detail);
+					}
+					roaster.setAmount(price);
+					roaster.setRoasterDetails(roasterDetails);
+					roasterDAO.save(roaster);
+					calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
+					m = calendar.get(Calendar.MONTH);
+					
+				}
+
+			
 		}
 	}
 
