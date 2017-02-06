@@ -8,9 +8,9 @@ import java.util.Set;
 
 import javax.mail.internet.MimeMessage;
 
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,6 +18,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.milkdistribution.dao.ProductDAO;
 import com.milkdistribution.dao.RoasterDAO;
 import com.milkdistribution.dao.UserDAO;
@@ -52,18 +53,18 @@ public class RoasterServiceImpl implements RoasterService{
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		String fileName = "Roaster.xls";
+		String fileName = "Roaster.xlsx";
 		List<Roaster> roasterList = roasterDAO.list(calendar.getTime());
-		HSSFWorkbook book = new HSSFWorkbook();
+		XSSFWorkbook book = new XSSFWorkbook();
 		String previousArea = null;
-		HSSFSheet sheet = null;
+		XSSFSheet sheet = null;
 		short count=0;
 		for (Roaster roaster:roasterList) {
 			String area = roaster.getArea().getDescription();
 			if (!area.equals(previousArea)) {
 				sheet = book.createSheet(area);
 				previousArea = area;
-				HSSFRow rowhead = sheet.createRow((short)0);
+				XSSFRow rowhead = sheet.createRow((short)0);
 	            rowhead.createCell(0).setCellValue("Address");
 	            rowhead.createCell(1).setCellValue("User");
 	            rowhead.createCell(2).setCellValue("Mobile");
@@ -71,7 +72,7 @@ public class RoasterServiceImpl implements RoasterService{
 	            rowhead.createCell(4).setCellValue("Qty");
 	            count=1;
 			}
-			HSSFRow row = sheet.createRow(count);
+			XSSFRow row = sheet.createRow(count);
             row.createCell(0).setCellValue(roaster.getUser().getAddress());
             row.createCell(1).setCellValue(roaster.getUser().getUserId());
             row.createCell(2).setCellValue(roaster.getUser().getMobile());
@@ -80,7 +81,7 @@ public class RoasterServiceImpl implements RoasterService{
             count++;
             Set<RoasterDetail> roasterDetails = roaster.getRoasterDetails();
             for (RoasterDetail detail:roasterDetails) {
-            	HSSFRow detailrow = sheet.createRow(count);
+            	XSSFRow detailrow = sheet.createRow(count);
             	detailrow.createCell(0).setCellValue("");
             	detailrow.createCell(1).setCellValue("");
             	detailrow.createCell(2).setCellValue("");
@@ -92,10 +93,11 @@ public class RoasterServiceImpl implements RoasterService{
 		FileOutputStream fileOut = new FileOutputStream(fileName);
         book.write(fileOut);
         fileOut.close();
+        book.close();
 		List<User> users = userDAO.getUsers(true);
 		MimeMessage[] messages = new MimeMessage[users.size()];
 		count=0;
-		FileSystemResource file = new FileSystemResource("Roaster.xls");
+		FileSystemResource file = new FileSystemResource("Roaster.xlsx");
 		for(User user:users) {
 			MimeMessage message = mailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -108,7 +110,7 @@ public class RoasterServiceImpl implements RoasterService{
 			count++;
 		}
 		mailSender.send(messages);
-		file.getFile().delete();
+		//file.getFile().delete();
 	}
 	
 	@Override

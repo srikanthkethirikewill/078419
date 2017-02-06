@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	RoasterDAO roasterDAO;
+	
+	@Autowired
+	JavaMailSender mailSender;
 
 	@Override
 	public void createUser(UserDTO userDTO) {
@@ -136,12 +141,23 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User validateUser(UserDTO userDTO) {
 		User user = userDAO.getUserByUserId(userDTO.getUser().getUserId());
+		if (user == null || (!user.getPassword().equals(userDTO.getUser().getPassword()))) {
+			return null;
+		}
 		return user;
 	}
 	
 	@Override
 	public User forgotUserDetails(UserDTO userDTO) {
 		User user = userDAO.getUserByMailId(userDTO.getUser().getMailId());
+		if (user!= null) {
+			SimpleMailMessage mailMessage= new SimpleMailMessage();
+			mailMessage.setFrom("srikanthreddy.kethiri@gmail.com");
+			mailMessage.setTo(user.getMailId());
+			mailMessage.setSubject("Password for Milk Distribution App");
+			mailMessage.setText("Your Password for Milk Distribution App: "+user.getPassword());
+			mailSender.send(mailMessage);
+		}
 		return user;
 	}
 	

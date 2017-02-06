@@ -1,4 +1,10 @@
-var base_URL = 'https://app.bizbee.io/api';
+var base_URL = 'http://localhost:8080/MilkDistribution/rest';
 
-//authenticate user login
-var authenticate_API_URL = base_URL + '/users/myProfile.json';
+function prepareRequestData(bodyData, serviceName) {
+	var jsonRequest = {};
+	var header = {};
+	header.serviceName = serviceName;
+	jsonRequest.header = header;
+	jsonRequest.body = bodyData;
+	return JSON.stringify(jsonRequest);
+}

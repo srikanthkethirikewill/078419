@@ -15,29 +15,36 @@ $(document).on( "pagecontainerbeforeshow", function( event, ui ) {
 $(document).ready(function() {
 
 $( "#signin" ).click(function(e) {
-
-       e.preventDefault();
-
-       var email = $('#txt_email').val();
-       var pwd = $('#txt_pwd').val();
+	e.preventDefault();
+	var email = $('#txt_email').val();
+    var pwd = $('#txt_pwd').val();
 
        if(email && pwd) {
 
            //encrypt basic userinfo
-           var encUserInfo = window.btoa(email + ":" + pwd);
+          
 
-
+    	   var userData = {};
+    	   userData.userId = email;
+    	   userData.password = pwd;
+    	   var user = {};
+    	   user.user = userData;
+    	   var jsonRequest = prepareRequestData (user, 'validateUser');
 
            //show loading view
            loadingSpinner.show();
+           
+           
+        		
 
-           $.bbObj.ajax({
+        		$.ajax({
                         type: 'POST',
-                        url: authenticate_API_URL,
-                        data: {},
+                        url: base_URL + "/validateUser",
+                        data: jsonRequest,
+                        dataType: 'json',
+            	        contentType: 'application/json; charset=utf-8',
                         success: authenticattionSuccess,
-                        error: authenticattionFail,
-                        userinfo: encUserInfo
+                        error: authenticattionFail
 
                         });
 
@@ -61,6 +68,13 @@ $( "#signin" ).click(function(e) {
         $("#popupFpwd").popup('open',{'transition':'flip'});
 
     });
+    
+    $( "#signup" ).click(function(e) {
+
+        e.preventDefault();
+       $("#popupSignup").popup('open',{'transition':'flip'});
+
+   });
 
     $( "#forgot_submit" ).click(function(e) {
 
@@ -126,20 +140,23 @@ function fpwdFail(data) {
 function authenticattionSuccess(data) {
     loadingSpinner.hide();
     //alert("success: user is: " + data.user.firstName);
-    storage.set('USERID', data.user.id);
-    storage.set('USERJSON', data.user);
-    if(data.user.userType != 'END_USER'){
-        window.location = "#dashboard";
-    }else {
-        storage.set("DBITEM", "My Pending");
-        window.location = "#listings";
-    }
-
+   if (data.result.errorCode == "failure") {
+	   swal("Error", "Problem communicationg with server.");
+   } else if (data.body == "null") {
+	   swal("Error", "Invalid User Id Or Password");
+   } else {
+	   var user = data.body;
+	   storage.set('USER', user);
+	   if (user.role == "A") {
+		   window.location("");
+	   } else {
+		   window.location("");
+	   }
+   }
 }
 
 function authenticattionFail(data) {
      loadingSpinner.hide();
-    storage.remove('USERINFO');
-    alert("failed: " + data);
+     swal("Network Error", "There was an error in communicating with the server.");
 
 }

@@ -89,7 +89,7 @@ public class MilkDistributionController {
 	    return responseDTO;
 	}
 	
-	@RequestMapping(value = "/validateyUser", method = RequestMethod.POST) 
+	@RequestMapping(value = "/validateUser", method = RequestMethod.POST) 
 	public ResponseDTO<User> validateUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO userDTO = request.getBody();
 		User user = userService.validateUser(userDTO);
@@ -213,7 +213,8 @@ public class MilkDistributionController {
 	
 	@RequestMapping(value = "/createRoasters", method = RequestMethod.POST)
 	public ResponseDTO<String> createRoasters(@RequestBody RequestDTO<String> request)throws Exception {
-		roasterService.createRoasters();
+		//roasterService.createRoasters();
+		roasterService.generateRoaster();
 		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
 		return responseDTO;
 	}
