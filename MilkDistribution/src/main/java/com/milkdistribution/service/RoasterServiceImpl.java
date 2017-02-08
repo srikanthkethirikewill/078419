@@ -53,6 +53,7 @@ public class RoasterServiceImpl implements RoasterService{
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.AM_PM, Calendar.PM);
 		String fileName = "Roaster.xlsx";
 		List<Roaster> roasterList = roasterDAO.list(calendar.getTime());
 		XSSFWorkbook book = new XSSFWorkbook();
@@ -130,6 +131,7 @@ public class RoasterServiceImpl implements RoasterService{
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.AM_PM, Calendar.PM);
 		while (m==month) {
 			Roaster roaster = new Roaster();
 			roaster.setArea(user.getArea());
@@ -171,6 +173,7 @@ public class RoasterServiceImpl implements RoasterService{
 		fromCalendar.set(Calendar.MINUTE, 0);
 		fromCalendar.set(Calendar.SECOND, 0);
 		fromCalendar.set(Calendar.MILLISECOND, 0);
+		fromCalendar.set(Calendar.AM_PM, Calendar.PM);
 		Calendar toCalendar = Calendar.getInstance();
 		toCalendar.set(Calendar.DATE, Integer.parseInt(toDateArray[0]));
 		toCalendar.set(Calendar.MONTH, Integer.parseInt(toDateArray[1]));
@@ -179,6 +182,7 @@ public class RoasterServiceImpl implements RoasterService{
 		toCalendar.set(Calendar.MINUTE, 0);
 		toCalendar.set(Calendar.SECOND, 0);
 		toCalendar.set(Calendar.MILLISECOND, 0);
+		toCalendar.set(Calendar.AM_PM, Calendar.PM);
 		User user = userDAO.getUser(roasterDTO.getUser().getId());
 		roasterDAO.deleteByRange(fromCalendar.getTime(), toCalendar.getTime(), user);
 		Set<RoasterDetail> roasterDetails = roasterDTO.getRoasterDetails();
@@ -208,6 +212,7 @@ public class RoasterServiceImpl implements RoasterService{
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.AM_PM, Calendar.PM);
 		Calendar current = Calendar.getInstance();
 		month = current.get(Calendar.MONTH)+2;
 		while (m<month) {
@@ -251,6 +256,7 @@ public class RoasterServiceImpl implements RoasterService{
 				calendar.set(Calendar.MINUTE, 0);
 				calendar.set(Calendar.SECOND, 0);
 				calendar.set(Calendar.MILLISECOND, 0);
+				calendar.set(Calendar.AM_PM, Calendar.PM);
 				while (m<=(month+1)) {
 					Roaster roaster = new Roaster();
 					roaster.setArea(user.getArea());

@@ -51,7 +51,7 @@ public class MilkDistributionController {
 	
 	
 	
-	@Scheduled(cron="0 0 2 * * ?")
+	@Scheduled(cron="0 0 4 * * ?")
 	public void generateRoasters() throws Exception {
 		roasterService.generateRoaster();
 	}

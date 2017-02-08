@@ -24,12 +24,15 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 	
 	@Override
 	public void delete(Date date,User user) {
-		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ?", new Object[] {user,date});
+		java.sql.Date dateObj = new java.sql.Date(date.getTime());
+		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ?", new Object[] {user,dateObj});
 	}
 	
 	@Override
 	public void deleteByRange(Date fromDate,Date toDate,User user) {
-		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ? and date <= ?", new Object[] {user,fromDate, toDate});
+		java.sql.Date fromDateObj = new java.sql.Date(fromDate.getTime());
+		java.sql.Date toDateObj = new java.sql.Date(toDate.getTime());
+		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ? and date <= ?", new Object[] {user,fromDateObj, toDateObj});
 	}
 	
 	@Override
@@ -49,6 +52,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
+		calendar.set(Calendar.AM_PM, Calendar.PM);
 		java.sql.Date dateObj = new java.sql.Date(calendar.getTime().getTime());
 		getHibernateTemplate().bulkUpdate("update RoasterDetail s set s.rate = ? where s.roaster.product = ? and s.roaster.date >= ?", new Object[] {product.getPrice(),product, dateObj});
 		
@@ -81,6 +85,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		fromCalendar.set(Calendar.HOUR, 0);
 		fromCalendar.set(Calendar.MINUTE, 0);
 		fromCalendar.set(Calendar.SECOND, 0);
+		fromCalendar.set(Calendar.AM_PM, Calendar.PM);
 		fromCalendar.set(Calendar.MILLISECOND, 0);
 		Calendar toCalendar = (Calendar)fromCalendar.clone();
 		toCalendar.set(Calendar.MONTH, toCalendar.get(Calendar.MONTH)+1);
@@ -111,11 +116,13 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		fromCalendar.set(Calendar.MINUTE, 0);
 		fromCalendar.set(Calendar.SECOND, 0);
 		fromCalendar.set(Calendar.MILLISECOND, 0);
+		fromCalendar.set(Calendar.AM_PM, Calendar.PM);
 		Calendar toCalendar = Calendar.getInstance();
 		toCalendar.set(Calendar.HOUR, 0);
 		toCalendar.set(Calendar.MINUTE, 0);
 		toCalendar.set(Calendar.SECOND, 0);
 		toCalendar.set(Calendar.MILLISECOND, 0);
+		toCalendar.set(Calendar.AM_PM, Calendar.PM);
 		DateFormatSymbols symbols = new DateFormatSymbols();
 		String month = symbols.getMonths()[fromCalendar.get(Calendar.MONTH)];
 		java.sql.Date fromDateObj = new java.sql.Date(fromCalendar.getTime().getTime());

@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>My Page</title> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="mobile-web-app-capable" content="yes">
+	 	<meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<link rel="stylesheet" href="css/jquery-ui-1.11.1.css">
+		<link rel="stylesheet" href="css/font-awesome.min.css" />
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+<script src="lib/jquery.min.js"></script>
+<script src="lib/jquery.mobile-1.4.5.js"></script>
+<link rel="stylesheet" href="css/cal.css" />
+<script type="text/javascript" src="js/Cal.js"></script>
+<script type="text/javascript">
+ $(document).on("pageinit", "#view-calendar", function () { 
+   $("#calendar").jqmCalendar({
+      events : [],
+      months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      days : ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      startOfWeek : 0
+   });
+})
+$(document).on("pageshow","#view-calendar",function(){
+	$.mobile.resetActivePageHeight();
+	   var height = parseInt($('#view-calendar').height()) || 0;
+	   height = parseFloat(height) * 0.8;
+	   $('#calendar-table').css('min-height', height);
+});
+
+</script>
+
+</head> 
+<body> 
+
+<div data-role="page" id="view-calendar">
+
+<div data-role="header">
+<h1>Milk Distribution</h1>
+</div>
+
+<div data-role="content">
+<div id="calendar"></div>
+</div>
+
+
+
+</div>
+
+</body>
+</html>
