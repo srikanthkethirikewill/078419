@@ -188,6 +188,7 @@ public class RoasterServiceImpl implements RoasterService{
 		Set<RoasterDetail> roasterDetails = roasterDTO.getRoasterDetails();
 		for(RoasterDetail detail:roasterDetails) {
 			detail.setProduct(productDAO.getProduct(detail.getProduct().getId()));
+			detail.setRate(detail.getProduct().getPrice());
 		}
 		while (toCalendar.compareTo(fromCalendar) >= 0 ) {
 			Roaster roaster = new Roaster();

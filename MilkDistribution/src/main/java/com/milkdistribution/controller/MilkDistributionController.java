@@ -92,9 +92,8 @@ public class MilkDistributionController {
 	@RequestMapping(value = "/validateUser", method = RequestMethod.POST) 
 	public ResponseDTO<User> validateUser(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO userDTO = request.getBody();
-		User user = userService.validateUser(userDTO);
 		ResponseDTO<User> responseDTO = new ResponseDTO<User>();
-		responseDTO.setBody(user);
+		responseDTO.setBody(userService.validateUser(userDTO));
 	    return responseDTO;
 	}
 	

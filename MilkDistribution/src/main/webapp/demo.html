@@ -28,7 +28,39 @@ $(document).on("pageshow","#view-calendar",function(){
 	   height = parseFloat(height) * 0.8;
 	   $('#calendar-table').css('min-height', height);
 });
-
+ $( document ).on( "pagecreate", function() {
+	    var nextId = 0;
+	    $("#add").click(function() {
+	        nextId++;
+	        var content = "<div data-role='collapsible' id='set" + nextId + "'><h4>Product</h3>";
+	        content += "<div class='ui-field-contain remove-margin'>";
+	        content += "<select name='productType"+nextId+"' id='productType"+nextId+"'>";
+	        content += "</div>";
+	        content += "<input type='number' name='productQty"+nextId+"' id='productQty"+nextId+"' placeholder='Qty'>";
+	        content += "<a href='#' id='removeProduct"+nextId+"' class='ui-btn ui-btn-raised clr-primary'>Remove</a>";
+	        content += "</div>";
+	        $( "#set" ).append( content ).collapsibleset( "refresh" );
+	        $( "#set" ).trigger('create');
+	        $("#removeProduct"+nextId).click (function (event) {
+	        	var str = event.target.id.toString().substring(13);
+	        	$("#set"+str).hide();
+	        });
+	    });
+	    
+	    $('#toDate').attr('min', '2017-02-13');
+	    $('#toDate').attr('max', '2017-03-31');
+	    
+	    $('#noProducts').click(function () {
+	    	if($(this).prop("checked") == true){
+	    		$('#add').hide();
+	    		$('#set').hide();
+	    	} else {
+	    		$('#add').show();
+	    		$('#set').show();
+	    	}
+	    	$('#set').empty();
+	    });
+	});
 </script>
 
 </head> 
@@ -47,6 +79,27 @@ $(document).on("pageshow","#view-calendar",function(){
 
 
 </div>
-
+<div data-role="page" id="view-roaster-products">
+	<div role="main" class="ui-content" data-inset="false" >
+	<form style="background-color:#fff">
+                <div style="padding:2px 20px;" data-inset="true"  >
+                	<label for="bday">From Date:</label>
+        			<input type="date" name="fromDate" id="fromDate" disabled="disabled">
+        			<label for="bday">To Date:</label>
+        			<input type="date" name="toDate" id="toDate">
+        			<fieldset data-role="controlgroup">
+					    <label for="noProducts">No Products</label>
+					    <input type="checkbox" name="noProducts" id="noProducts">
+					</fieldset>
+                    <button type="button"  data-iconpos="right" data-mini="true" data-inline="true" id="add">Add Product</button>
+					<div data-role="collapsible-set" data-content-theme="a" data-iconpos="right" id="set">
+					    
+					</div>
+                    
+                    
+               </div>
+            </form>
+            </div>
+</div>
 </body>
 </html>

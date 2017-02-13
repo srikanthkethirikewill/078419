@@ -248,6 +248,8 @@
          $element.trigger('change', date);
          
          plugin.settings.date = date ;
+         window.location = "#view-roaster-products";
+         //$("#popupProductDetail").popup('open',{'transition':'flip'});
       }
       
       function isDisabled(date){

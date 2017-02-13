@@ -14,6 +14,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "USER_DAILY_REQUIREMENT", catalog = "MilkDistribution", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "ID") })
@@ -25,6 +27,7 @@ public class UserDailyRequirement {
 	
 	private int qty;
 	
+	@JsonIgnore
 	private User user;
 	
 	

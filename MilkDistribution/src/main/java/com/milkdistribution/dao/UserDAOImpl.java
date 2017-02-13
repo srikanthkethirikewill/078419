@@ -13,7 +13,9 @@ public class UserDAOImpl  extends CustomHibernateDaoSupport implements UserDAO {
 	@Override
 	public void save(User user) {
 		// TODO Auto-generated method stub
+		System.out.println("before " + user.getId());
 		getHibernateTemplate().saveOrUpdate(user);
+		System.out.println("success");
 	}
 	
 	@Override

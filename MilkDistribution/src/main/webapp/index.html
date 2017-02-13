@@ -85,8 +85,14 @@
                                               </div>
             </form>
         </div>  <!-- /popup -->
-        <div data-role="popup" id="popupSignup" data-theme="e" class="ui-corner-all">
-             <div data-role="header" class="wow fadeIn" ><h4 style="text-align:center; font-size:1em"></h4></div>
+        
+            
+            
+    </div>
+
+
+	<div data-role="page" id="signup">
+             <div role="main" class="ui-content" data-inset="false" >
                  
             <form style="background-color:#fff">
                 <div style="padding:2px 20px;" data-inset="true"  >
@@ -94,27 +100,35 @@
                     
                     <ul data-role="listview" data-inset="true">
                         <li class="ui-field-contain">
-                            <input name="signup_userId" id="signup_userId" value="" type="text" placeholder="User Id">
+                            <input name="signup_userId" id="signup_userId" maxlength="30" value="" type="text" placeholder="User Id">
                         </li>
                         <li class="ui-field-contain">
-                            <input name="signup_password" id="signup_password" value="" type="password" placeholder="Password">
+                            <input name="signup_password" id="signup_password" maxlength="30" value="" type="password" placeholder="Password">
                         </li>
                         <li class="ui-field-contain">
-                            <input name="signup_repassword" id="signup_repassword" value="" type="password" placeholder="Reenter Password">
+                            <input name="signup_repassword" id="signup_repassword" maxlength="30" value="" type="password" placeholder="Reenter Password">
                         </li>
                         <li class="ui-field-contain">
-                            <input name="signup_mobile" id="signup_mobile" value="" type="text" placeholder="Mobile Number">
+                            <input name="signup_mobile" id="signup_mobile" maxlength="10" value="" type="text" placeholder="Mobile Number">
                         </li>
                         <li class="ui-field-contain">
-                            <input name="signup_email" id="signup_email" value="" type="text" placeholder="Email Address">
+                            <input name="signup_email" id="signup_email" maxlength="30" value="" type="text" placeholder="Email Address">
                         </li>
                         <li class="ui-field-contain">
-                        	<textarea name="signup_address" id="signup_address" placeholder="Address"></textarea>
+                        	<textarea name="signup_address" maxlength="200" id="signup_address" placeholder="Address"></textarea>
+                        </li>
+                        <li>
+                        	<button type="button"  data-iconpos="right" data-mini="true" data-inline="true" id="addUserProduct">Add Product</button>
+							<div data-role="collapsible-set" data-content-theme="a" data-iconpos="right" id="setUserProduct">
+							    
+							</div>
                         </li>
                         <li class="ui-field-contain">
-                            <button type="submit" data-theme="b" id="signup_submit">Submit</button>
-                           
-                                </li>
+                            
+                           	<fieldset id="signup_btn" class="ui-grid-a">
+		                          <a href="#" id="signup_submit" class="ui-btn ui-btn-raised clr-primary">Save</a>
+		                      </fieldset>
+                        </li>
                         <li class="ui-body ui-body-b"> </li>
 
 
@@ -123,13 +137,8 @@
                     
                                               </div>
             </form>
+            </div>
         </div>
-            
-            
-    </div>
-
-
-
 
     <div data-role="page" id="dashboard">
 

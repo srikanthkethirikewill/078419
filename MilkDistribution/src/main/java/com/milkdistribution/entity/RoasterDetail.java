@@ -14,6 +14,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ROASTER_DTL", catalog = "MilkDistribution", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "ID") })
@@ -27,6 +29,7 @@ public class RoasterDetail {
 	
 	private double rate;
 	
+	@JsonIgnore
 	private Roaster roaster;
 
 	@Id
