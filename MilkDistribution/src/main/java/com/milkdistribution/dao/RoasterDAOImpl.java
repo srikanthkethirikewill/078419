@@ -25,6 +25,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 	@Override
 	public void delete(Date date,User user) {
 		java.sql.Date dateObj = new java.sql.Date(date.getTime());
+		getHibernateTemplate().bulkUpdate("delete from RoasterDetail d where d.roaster in (from Roaster where user = ? and date >= ?)", new Object[] {user,dateObj});
 		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ?", new Object[] {user,dateObj});
 	}
 	
@@ -32,6 +33,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 	public void deleteByRange(Date fromDate,Date toDate,User user) {
 		java.sql.Date fromDateObj = new java.sql.Date(fromDate.getTime());
 		java.sql.Date toDateObj = new java.sql.Date(toDate.getTime());
+		getHibernateTemplate().bulkUpdate("delete from RoasterDetail d where d.roaster in (from Roaster where user = ? and date >= ? and date <= ?)", new Object[] {user,fromDateObj, toDateObj});
 		getHibernateTemplate().bulkUpdate("delete from Roaster where user = ? and date >= ? and date <= ?", new Object[] {user,fromDateObj, toDateObj});
 	}
 	
@@ -80,7 +82,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 	public List<Roaster> getMonthlyRoaster(String month,String year,User user) {
 		Calendar fromCalendar = Calendar.getInstance();
 		fromCalendar.set(Calendar.DAY_OF_MONTH, 1);
-		fromCalendar.set(Calendar.MONTH, Integer.parseInt(month)-1);
+		fromCalendar.set(Calendar.MONTH, Integer.parseInt(month));
 		fromCalendar.set(Calendar.YEAR, Integer.parseInt(year));
 		fromCalendar.set(Calendar.HOUR, 0);
 		fromCalendar.set(Calendar.MINUTE, 0);

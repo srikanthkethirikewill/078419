@@ -72,10 +72,10 @@ $( "#signin" ).click(function(e) {
 
     });
     
-    $( "#signup" ).click(function(e) {
+    $( "#signupBtn" ).click(function(e) {
 
         e.preventDefault();
-        window.location = "#signup";
+        $.mobile.changePage($("#signup"));
        //$("#popupSignup").popup('open',{'transition':'flip'});
 
    });
@@ -121,14 +121,17 @@ $( "#signin" ).click(function(e) {
     	signup();
     });
 });
-
+$(document).on("pageshow","#login",function(){
+	storage.set('USER', '');
+	$('#login').find("input[type=text], input[type=password]").val("");
+});
 $(document).on("pageshow","#signup",function(){
+	$('#signup').find("input[type=text], input[type=password], textarea").val("");
 	user_nextId = 0;
 	$('#setUserProduct').empty();
-	$('#signup').trigger('refresh');
 	$("#addUserProduct").click(function() {
     	user_nextId++;
-        var content = "<div data-role='collapsible' id='setUserProduct" + user_nextId + "'><h4>Product</h3>";
+        var content = "<div data-role='collapsible' id='setUserProduct" + user_nextId + "'><h4>Product</h4>";
         content += "<div class='ui-field-contain remove-margin'>";
         content += "<select name='userProductType"+user_nextId+"' id='userProductType"+user_nextId+"'>";
         content += "<option value=''></option>";
@@ -182,9 +185,9 @@ function authenticattionSuccess(data) {
 	   var user = data.body;
 	   storage.set('USER', user);
 	   if (user.role == "A") {
-		   window.location("");
+		   //$.mobile.changePage($("#login"));
 	   } else {
-		   window.location("");
+		  $.mobile.changePage($("#view-calendar"));
 	   }
    }
 }
@@ -370,7 +373,7 @@ function signupSuccess(data) {
 	   swal("Error", "Problem communicationg with server.");
    } else {
 	   swal("Success", "You have registered successfully");
-	   window.location = "#login";
+	   $.mobile.changePage($("#login"));
    }
 }
 

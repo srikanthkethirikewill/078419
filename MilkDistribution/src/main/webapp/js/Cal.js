@@ -246,9 +246,12 @@
          $this.addClass("ui-btn-active");
          
          $element.trigger('change', date);
-         
          plugin.settings.date = date ;
-         window.location = "#view-roaster-products";
+         storage.set("roaster_date", date.getDate());
+         storage.set("roaster_month", date.getMonth());
+         storage.set("roaster_year", date.getFullYear());
+         $.mobile.changePage($("#view-roaster-products"));
+         
          //$("#popupProductDetail").popup('open',{'transition':'flip'});
       }
       
@@ -273,8 +276,66 @@
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
       }
       
+      function refreshData () {
+    	  var date = plugin.settings.date;
+    	  var year = date.getFullYear(),
+          month = date.getMonth(),
+          daysBefore = _daysBefore(date),
+          daysInMonth = _daysInMonth(date),
+          weeksInMonth = plugin.settings.weeksInMonth || _weeksInMonth(date, daysInMonth, daysBefore);
+       
+       
+       
+       if (daysBefore == 7) 
+      	 weeksInMonth--;
+
+       //if (((daysInMonth + daysBefore) / 7 ) - weeksInMonth === 0)
+          // weeksInMonth++;
+       
+       // Empty the table body, we start all over...
+       $tbody.empty();
+       // Change the header to match the current month
+       $header.html( plugin.settings.months[month] + " " + year.toString() );
+       for (    var   weekIndex = 0,
+                daysInMonthCount = 1,
+                daysAfterCount = 1; weekIndex < weeksInMonth; weekIndex++ ) {
+                   
+          var daysInWeekCount = 0,
+             row = $("<tr/>").appendTo($tbody);
+          
+          // Previous month
+          while ( daysBefore > 0 && daysBefore < 7 ) {
+             addCell(row, new Date(year, month, 1 - daysBefore), true);
+             daysBefore--;
+             daysInWeekCount++;
+          }
+          
+          // Current month
+          while ( daysInWeekCount < 7 && daysInMonthCount <= daysInMonth ) {
+             addCell(row, new Date(year, month, daysInMonthCount), false, daysInMonthCount === date.getDate() );
+             daysInWeekCount++;
+             daysInMonthCount++;
+          }
+          // Next month
+          while ( daysInMonthCount > daysInMonth && daysInWeekCount < 7) {
+             addCell(row, new Date(year, month, daysInMonth + daysAfterCount), true);
+             daysInWeekCount++;
+             daysAfterCount++;
+          }
+       }
+       
+       //lp20150515
+       for ( var i = 0, days = [].concat(plugin.settings.days, plugin.settings.days).splice(plugin.settings.startOfWeek, 7); i < 7; i++ ) {
+	    document.getElementById('nameday'+i).innerHTML=days[i];
+       }
+       
+       
+       $element.trigger('create');
+
+      }
       
       function refresh(date) {
+    	 
          plugin.settings.date = date = date ||  plugin.settings.date || new Date();
 
          var year = date.getFullYear(),
@@ -283,51 +344,8 @@
             daysInMonth = _daysInMonth(date),
             weeksInMonth = plugin.settings.weeksInMonth || _weeksInMonth(date, daysInMonth, daysBefore);
          
-         if (daysBefore == 7) 
-        	 weeksInMonth--;
-
-         //if (((daysInMonth + daysBefore) / 7 ) - weeksInMonth === 0)
-            // weeksInMonth++;
+         loadRoasterDetails(month,year, refreshData);
          
-         // Empty the table body, we start all over...
-         $tbody.empty();
-         // Change the header to match the current month
-         $header.html( plugin.settings.months[month] + " " + year.toString() );
-         for (    var   weekIndex = 0,
-                  daysInMonthCount = 1,
-                  daysAfterCount = 1; weekIndex < weeksInMonth; weekIndex++ ) {
-                     
-            var daysInWeekCount = 0,
-               row = $("<tr/>").appendTo($tbody);
-            
-            // Previous month
-            while ( daysBefore > 0 && daysBefore < 7 ) {
-               addCell(row, new Date(year, month, 1 - daysBefore), true);
-               daysBefore--;
-               daysInWeekCount++;
-            }
-            
-            // Current month
-            while ( daysInWeekCount < 7 && daysInMonthCount <= daysInMonth ) {
-               addCell(row, new Date(year, month, daysInMonthCount), false, daysInMonthCount === date.getDate() );
-               daysInWeekCount++;
-               daysInMonthCount++;
-            }
-            // Next month
-            while ( daysInMonthCount > daysInMonth && daysInWeekCount < 7) {
-               addCell(row, new Date(year, month, daysInMonth + daysAfterCount), true);
-               daysInWeekCount++;
-               daysAfterCount++;
-            }
-         }
-         
-         //lp20150515
-         for ( var i = 0, days = [].concat(plugin.settings.days, plugin.settings.days).splice(plugin.settings.startOfWeek, 7); i < 7; i++ ) {
-	    document.getElementById('nameday'+i).innerHTML=days[i];
-         }
-         
-         
-         $element.trigger('create');
       }
 
       $element.bind('change', function(originalEvent, begin) {

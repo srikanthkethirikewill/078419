@@ -16,7 +16,8 @@
 		<link rel="stylesheet" type="text/css" href="css/waitMe.css" />
 		<script src="lib/jquery.min.js"></script>
 		<script src="lib/jquery.mobile-1.4.5.js"></script>
-
+		<link rel="stylesheet" href="css/cal.css" />
+		<script type="text/javascript" src="js/Cal.js"></script>
 		<!-- custom alert and spinner libraries -->
 		<script src="lib/sweetalert.min.js"></script>
 		<script src="lib/waitMe.min.js"></script>
@@ -26,6 +27,7 @@
 		<script src="js/bblib.js"></script>
 
 		<script src="js/login.js"></script>
+		<script src="js/Roaster.js"></script>
 		 <!--  Customized css   -->
 
 			<style>
@@ -53,10 +55,11 @@
                       </fieldset>
                   </li>
               </ul>
+			  <button type="button"  data-iconpos="right" data-mini="true" data-inline="true" id="forgotpwd" style="background-color: #333;
+    color: #FFF;">Forgot Password?</button>
+			  <button type="button"  data-iconpos="right" data-mini="true" data-inline="true" id="signupBtn" style="background-color: #333;
+    color: #FFF;">Sign Up</button>
 			  
-			  <p style="text-align:center;" class="clr-cyan" id="forgotpwd" data-transition="slideup">Forgot Password?</a></p>
-			  <p style="text-align:center;" class="clr-cyan" id="signup" data-transition="slideup">Sign Up</a></p>
-       		
         </div>
             
             
@@ -139,6 +142,44 @@
             </form>
             </div>
         </div>
+        <div data-role="page" id="view-calendar">
+
+			<div data-role="header">
+			<h1>Milk Distribution</h1>
+			</div>
+			
+			<div data-role="content">
+			<div id="calendar"></div>
+		</div>
+
+
+
+</div>
+<div data-role="page" id="view-roaster-products">
+	<div role="main" class="ui-content" data-inset="false" >
+	<form id="roasterForm" style="background-color:#fff">
+                <div style="padding:2px 20px;" data-inset="true"  >
+                	<h5>Roaster details</h5>
+                	<label id="noDefaultRoaster">No Roaster is available for this date</label>
+                	<label for="fromDate" id="fromDateLbl">From Date:</label>
+        			<input type="date" name="fromDate" id="fromDate" class="roasterEditable" disabled="disabled">
+        			<label for="toDate" id="toDateLbl">To Date:</label>
+        			<input type="date" name="toDate" class="roasterEditable" id="toDate">
+        			<fieldset data-role="controlgroup" id="noProductGrp">
+					    <label for="noProducts">No Products Required</label>
+					    <input type="checkbox" name="noProducts" id="noProducts">
+					</fieldset>
+                    <button type="button"  data-iconpos="right" data-mini="true" data-inline="true" id="add">Add Product</button>
+					<div data-role="collapsible-set" data-content-theme="a" data-iconpos="right" id="set">
+					    
+					</div>
+                    <a href="#" id="roaster_submit" class="ui-btn ui-btn-raised clr-primary">Save</a>
+                    
+               </div>
+     </form>
+    </div>
+</div>
+        
 
     <div data-role="page" id="dashboard">
 

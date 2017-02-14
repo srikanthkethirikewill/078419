@@ -107,13 +107,16 @@ public class Roaster {
 	public void setRoasterDetails(Set<RoasterDetail> roasterDetails) {
 		this.roasterDetails = roasterDetails;
 	}
-
+	
+	@Column(name = "STATUS", unique = false, nullable = true, length = 1)
 	public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
-	}	
+	}
+	
+	
 
 }
