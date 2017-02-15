@@ -95,11 +95,16 @@
 
 
 	<div data-role="page" id="signup">
-             <div role="main" class="ui-content" data-inset="false" >
+			<div data-role="header" data-position="fixed" data-theme="b">
+        		<h5>Sign Up</h5>
+        		<a href="#login" data-rel="back" data-icon="carat-l" data-iconpos="notext">Back</a>
+        		
+    		</div>
+            <div role="main" class="ui-content" data-inset="false" >
                  
             <form style="background-color:#fff">
                 <div style="padding:2px 20px;" data-inset="true"  >
-                    <h5>Please enter your details</h5>
+                    
                     
                     <ul data-role="listview" data-inset="true">
                         <li class="ui-field-contain">
@@ -144,9 +149,11 @@
         </div>
         <div data-role="page" id="view-calendar">
 
-			<div data-role="header">
-			<h1>Milk Distribution</h1>
-			</div>
+			<div data-role="header" data-position="fixed" data-theme="b">
+        		<h5>Monthly Roaster</h5>
+        		<a href="#login" data-rel="back" data-icon="carat-l" data-iconpos="notext">Back</a>
+        		
+    		</div>
 			
 			<div data-role="content">
 			<div id="calendar"></div>
@@ -156,10 +163,15 @@
 
 </div>
 <div data-role="page" id="view-roaster-products">
+	<div data-role="header" data-position="fixed" data-theme="b">
+        		<h5>Monthly Roaster</h5>
+        		<a href="#view-calendar" data-rel="back" data-icon="carat-l" data-iconpos="notext">Back</a>
+        		
+    		</div>
 	<div role="main" class="ui-content" data-inset="false" >
 	<form id="roasterForm" style="background-color:#fff">
                 <div style="padding:2px 20px;" data-inset="true"  >
-                	<h5>Roaster details</h5>
+                	
                 	<label id="noDefaultRoaster">No Roaster is available for this date</label>
                 	<label for="fromDate" id="fromDateLbl">From Date:</label>
         			<input type="date" name="fromDate" id="fromDate" class="roasterEditable" disabled="disabled">

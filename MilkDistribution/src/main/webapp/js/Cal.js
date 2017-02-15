@@ -348,25 +348,7 @@
          
       }
 
-      $element.bind('change', function(originalEvent, begin) {
-         var end = new Date(begin.getFullYear(), begin.getMonth(), begin.getDate() + 1, 0,0,0,0);
-         // Empty the list
-         $listview.empty();
-
-         plugin.settings.eventHandler.getEventsOnDay(begin, end, function(list_of_events) {
-            for(var i = 0, event; event = list_of_events[i]; i++ ) {
-               var summary    = event[plugin.settings.summary],
-                   bg = event[plugin.settings.bg],
-		   itemIndex = event[plugin.settings.itemIndex],
-                   beginTime  = (( event[plugin.settings.begin] > begin ) ? event[plugin.settings.begin] : begin ).toTimeString().substr(0,5),
-                   endTime    = (( event[plugin.settings.end] < end ) ? event[plugin.settings.end] : end ).toTimeString().substr(0,5),
-                   timeString = beginTime + "-" + endTime,
-                   $listItem  = $("<li></li>").appendTo($listview);
-               plugin.settings.listItemFormatter( $listItem, timeString, summary, event );
-            }
-            $listview.trigger('create').filter(".ui-listview").listview('refresh');
-         });
-      });
+      
       
       function listItemFormatter($listItem, timeString, summary, event) {
          var text = ( ( timeString != "00:00-00:00" ) ? timeString : plugin.settings.allDayTimeString ) + " " + summary;
@@ -400,9 +382,9 @@
 
    $.fn.jqmCalendar = function(options) {
       return this.each(function() {
-         if (!$(this).data('jqmCalendar')) {
+         //if (!$(this).data('jqmCalendar')) {
              $(this).data('jqmCalendar', new $.jqmCalendar(this, options));
-         }
+         //}
       });
    }
 

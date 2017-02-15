@@ -3,6 +3,7 @@ var nextId = 0;
 var calObj;
 $(document).on("pageshow","#view-calendar",function(){
 	roasters = [];
+	$("#calendar").empty();
 	$("#calendar").jqmCalendar({
 	      events : [],
 	      months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -26,7 +27,9 @@ $(document).on("pageshow","#view-calendar",function(){
 	 	var roasterDataObj = roasters[dateValDate];
 	 	var isReadOnly = (dateValObj <= dateObj) || (dateValObj >= nextMonthDate);
 	 	nextId = 0;
-	    $("#add").click(function() {
+	 	$('#set').empty();
+	 	$('#add').off('click');
+	 	$("#add").click(function() {
 	        nextId++;
 	        var content = "<div data-role='collapsible' id='set" + nextId + "'><h4>Product</h3>";
 	        content += "<div class='ui-field-contain remove-margin'>";
@@ -44,6 +47,7 @@ $(document).on("pageshow","#view-calendar",function(){
 	        $( "#set" ).append( content ).collapsibleset( "refresh" );
 	        $( "#set" ).trigger('create');
 	        if (!isReadOnly) {
+	        	$("#removeProduct"+nextId).off('click');
 		        $("#removeProduct"+nextId).click (function (event) {
 		        	var str = event.target.id.toString().substring(13);
 		        	$("#set"+str).hide();
@@ -74,6 +78,8 @@ $(document).on("pageshow","#view-calendar",function(){
 		    $('#toDate').attr('max', toStr);
 		    $('#fromDate').val(fromStr);
 		    $('#toDate').val(fromStr);
+		    //$('#noProducts').prop("checked", false).checkboxradio('refresh');
+		    $("#noProducts").off('click');
 		    $('#noProducts').click(function () {
 		    	if($(this).prop("checked") == true){
 		    		$('#add').hide();
@@ -83,12 +89,13 @@ $(document).on("pageshow","#view-calendar",function(){
 		    		$('#set').show();
 		    	}
 		    	$('#set').empty();
+		    	nextId = 0;
 		    });
+		    $("#roaster_submit").off('click');
 		    $('#roaster_submit').click(function () {
 		    	saveRoaster();
 		    });
 	    }
-	    
 	    if (roasterDataObj != null && roasterDataObj.roasterDetails.length > 0) {
 	    	var roasterDetails = roasterDataObj.roasterDetails;
 	    	for (var t=0;t<roasterDetails.length;t++) {
@@ -102,7 +109,11 @@ $(document).on("pageshow","#view-calendar",function(){
 	    	$('#noDefaultRoaster').show();
 	    } else {
 	    	$('#noDefaultRoaster').hide();
-	    	$('#noProducts').prop("checked", true);
+	    	$('#noProducts').prop("checked", true).checkboxradio('refresh');
+	    	$('#add').hide();
+	    	$('#set').hide();
+	    	$('#set').empty();
+	    	nextId = 0;
 	    }
 	});
  function loadRoasterDetails(month,year,callbackFn) {

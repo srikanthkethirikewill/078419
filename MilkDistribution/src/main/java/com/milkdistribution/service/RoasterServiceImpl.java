@@ -167,7 +167,7 @@ public class RoasterServiceImpl implements RoasterService{
 		String[] toDateArray = toDate.split("-");
 		Calendar fromCalendar = Calendar.getInstance();
 		fromCalendar.set(Calendar.DATE, Integer.parseInt(fromDateArray[2]));
-		fromCalendar.set(Calendar.MONTH, Integer.parseInt(fromDateArray[1]));
+		fromCalendar.set(Calendar.MONTH, Integer.parseInt(fromDateArray[1])-1);
 		fromCalendar.set(Calendar.YEAR, Integer.parseInt(fromDateArray[0]));
 		fromCalendar.set(Calendar.HOUR, 0);
 		fromCalendar.set(Calendar.MINUTE, 0);
@@ -176,7 +176,7 @@ public class RoasterServiceImpl implements RoasterService{
 		fromCalendar.set(Calendar.AM_PM, Calendar.PM);
 		Calendar toCalendar = Calendar.getInstance();
 		toCalendar.set(Calendar.DATE, Integer.parseInt(toDateArray[2]));
-		toCalendar.set(Calendar.MONTH, Integer.parseInt(toDateArray[1]));
+		toCalendar.set(Calendar.MONTH, Integer.parseInt(toDateArray[1])-1);
 		toCalendar.set(Calendar.YEAR, Integer.parseInt(toDateArray[0]));
 		toCalendar.set(Calendar.HOUR, 0);
 		toCalendar.set(Calendar.MINUTE, 0);

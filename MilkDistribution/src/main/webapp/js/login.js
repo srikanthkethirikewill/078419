@@ -129,9 +129,10 @@ $(document).on("pageshow","#signup",function(){
 	$('#signup').find("input[type=text], input[type=password], textarea").val("");
 	user_nextId = 0;
 	$('#setUserProduct').empty();
+	$('#addUserProduct').off('click');
 	$("#addUserProduct").click(function() {
     	user_nextId++;
-        var content = "<div data-role='collapsible' id='setUserProduct" + user_nextId + "'><h4>Product</h4>";
+    	var content = "<div data-role='collapsible' id='setUserProduct" + user_nextId + "'><h4>Product</h4>";
         content += "<div class='ui-field-contain remove-margin'>";
         content += "<select name='userProductType"+user_nextId+"' id='userProductType"+user_nextId+"'>";
         content += "<option value=''></option>";
@@ -144,6 +145,7 @@ $(document).on("pageshow","#signup",function(){
         content += "</div>";
         $( "#setUserProduct" ).append( content ).collapsibleset( "refresh" );
         $( "#setUserProduct" ).trigger('create');
+        $("#userRemoveProduct"+user_nextId).off('click');
         $("#userRemoveProduct"+user_nextId).click (function (event) {
         	var str = event.target.id.toString().substring(17);
         	$("#setUserProduct"+str).hide();
