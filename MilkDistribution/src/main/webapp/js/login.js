@@ -185,10 +185,12 @@ function authenticattionSuccess(data) {
 	   swal("Error", "Invalid User Id Or Password");
    } else {
 	   var user = data.body;
-	   storage.set('USER', user);
 	   if (user.role == "A") {
-		   //$.mobile.changePage($("#login"));
+		   storage.set('USER_ROLE', "A");
+		   $.mobile.changePage($("#view-admin-menu"));
 	   } else {
+		  storage.set('USER', user);
+		  storage.set('USER_ROLE', "N");
 		  $.mobile.changePage($("#view-calendar"));
 	   }
    }

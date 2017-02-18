@@ -1,6 +1,5 @@
 package com.milkdistribution.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -86,7 +85,7 @@ public class Billing {
 		this.billAmount = billAmount;
 	}
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "USER_ID")
 	public User getUser() {
 		return user;

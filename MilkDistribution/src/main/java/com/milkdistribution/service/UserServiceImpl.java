@@ -108,7 +108,6 @@ public class UserServiceImpl implements UserService {
 		User userObj = null;
 		if (user.getId() != null) {
 			userObj = userDAO.getUser(user.getId());
-			userObj.getRequirement().clear();
 			if(requirement != null) {
 				for (UserDailyRequirement req:requirement) {
 					Product product = productDAO.getProduct(req.getProduct().getId());
@@ -116,6 +115,7 @@ public class UserServiceImpl implements UserService {
 					req.setUser(userObj);
 				}
 			}
+			userObj.getRequirement().clear();
 			userObj.getRequirement().addAll(requirement);
 			userObj.setAddress(user.getAddress());
 			userObj.setArea(user.getArea());
@@ -163,9 +163,10 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public UserDTO getVerifiedUsers() {
+	public UserDTO getVerifiedUsers(String areaId) {
 		UserDTO userDTO = new UserDTO();
-		List<User> users = userDAO.getActiveUsers();
+		Area area = areaDAO.getArea(areaId);
+		List<User> users = userDAO.getActiveUsersByArea(area);
 		userDTO.setUsers(users);
 		return userDTO;
 	}

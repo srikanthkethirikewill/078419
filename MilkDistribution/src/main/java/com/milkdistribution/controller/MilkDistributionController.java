@@ -107,7 +107,7 @@ public class MilkDistributionController {
 	}
 	
 	@RequestMapping(value = "/pendingUsers", method = RequestMethod.POST) 
-	public ResponseDTO<List<User>> getPendingUsers() {  
+	public ResponseDTO<List<User>> getPendingUsers(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO userDTO = userService.getPendingUsers();
 		ResponseDTO<List<User>> responseDTO = new ResponseDTO<List<User>>();
 		responseDTO.setBody(userDTO.getUsers());
@@ -115,8 +115,9 @@ public class MilkDistributionController {
 	}
 	
 	@RequestMapping(value = "/activeUsers", method = RequestMethod.POST) 
-	public ResponseDTO<List<User>> getActiveUsers() {  
-		UserDTO userDTO = userService.getVerifiedUsers();
+	public ResponseDTO<List<User>> getActiveUsers(@RequestBody RequestDTO<UserDTO> request) { 
+		UserDTO userDTO = request.getBody();
+		userDTO = userService.getVerifiedUsers(userDTO.getAreaId());
 		ResponseDTO<List<User>> responseDTO = new ResponseDTO<List<User>>();
 		responseDTO.setBody(userDTO.getUsers());
 	    return responseDTO;

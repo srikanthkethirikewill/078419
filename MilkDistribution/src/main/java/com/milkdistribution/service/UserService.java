@@ -16,7 +16,7 @@ public interface UserService {
 	
 	User forgotUserDetails(UserDTO userDTO);
 	
-	UserDTO getVerifiedUsers();
+	UserDTO getVerifiedUsers(String areaId);
 	
 	UserDTO getPendingUsers();
 }

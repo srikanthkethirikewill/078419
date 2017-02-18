@@ -71,7 +71,7 @@ public class Roaster {
 		this.date = date;
 	}
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "USER_ID")
 	public User getUser() {
 		return user;
@@ -89,7 +89,7 @@ public class Roaster {
 		this.amount = amount;
 	}
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "AREA_ID")
 	public Area getArea() {
 		return area;

@@ -14,6 +14,8 @@ public class UserDTO {
 	
 	private List<User> users;
 	
+	private String areaId;
+	
 	public User getUser() {
 		return user;
 	}
@@ -44,6 +46,13 @@ public class UserDTO {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
-	}	
-	
+	}
+
+	public String getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
 }

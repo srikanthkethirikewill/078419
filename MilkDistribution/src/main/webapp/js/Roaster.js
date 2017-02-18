@@ -14,7 +14,16 @@ $(document).on("pageshow","#view-calendar",function(){
 	   var height = parseInt($('#view-calendar').height()) || 0;
 	   height = parseFloat(height) * 0.8;
 	   $('#calendar-table').css('min-height', height);
+	   $('#user_back').off('click');
+	   $('#user_back').click(function () {
+			if ( storage.get('USER_ROLE') == 'A') {
+				$.mobile.changePage($("#view-users-by-area"));
+			} else {
+				 $.mobile.changePage($("#login"));
+			}
+		});
 });
+
  $( document ).on("pageshow","#view-roaster-products", function() {
 	 	var dateValDate = storage.get("roaster_date");
 	 	var dateValMonth = storage.get("roaster_month");
@@ -78,8 +87,8 @@ $(document).on("pageshow","#view-calendar",function(){
 		    $('#toDate').attr('max', toStr);
 		    $('#fromDate').val(fromStr);
 		    $('#toDate').val(fromStr);
-		    //$('#noProducts').prop("checked", false).checkboxradio('refresh');
 		    $("#noProducts").off('click');
+		    $('#noProducts').prop("checked", false).checkboxradio('refresh');
 		    $('#noProducts').click(function () {
 		    	if($(this).prop("checked") == true){
 		    		$('#add').hide();
@@ -105,6 +114,7 @@ $(document).on("pageshow","#view-calendar",function(){
 	    		$("#productType"+l).val(roasterDetails[t].product.id).selectmenu('refresh');
 	    	}
 	    	$('#noDefaultRoaster').hide();
+	    	$('#set').show();
 	    } else if (isReadOnly) {
 	    	$('#noDefaultRoaster').show();
 	    } else {
@@ -115,6 +125,10 @@ $(document).on("pageshow","#view-calendar",function(){
 	    	$('#set').empty();
 	    	nextId = 0;
 	    }
+	    $('#roasterproductback').off('click');
+		$('#roasterproductback').click(function () {
+			$.mobile.changePage($("#view-calendar"));
+		});
 	});
  function loadRoasterDetails(month,year,callbackFn) {
 	 loadingSpinner.show();

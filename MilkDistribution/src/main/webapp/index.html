@@ -28,6 +28,7 @@
 
 		<script src="js/login.js"></script>
 		<script src="js/Roaster.js"></script>
+		<script src="js/Users.js"></script>
 		 <!--  Customized css   -->
 
 			<style>
@@ -40,7 +41,7 @@
 		<div data-role="page" id="login">
             
   			<div role="main" class="ui-content" data-inset="false" >
-              <h3 style="text-align:center"><img src="images/logo.png">
+              <h3 style="text-align:center"><img src="images/milk_logo.png">
              
               <ul data-role="listview" data-inset="true">
                   <li class="ui-field-contain">
@@ -151,7 +152,7 @@
 
 			<div data-role="header" data-position="fixed" data-theme="b">
         		<h5>Monthly Roaster</h5>
-        		<a href="#login" data-rel="back" data-icon="carat-l" data-iconpos="notext">Back</a>
+        		<a href="#"  data-icon="carat-l" id="user_back" data-iconpos="notext">Back</a>
         		
     		</div>
 			
@@ -165,7 +166,7 @@
 <div data-role="page" id="view-roaster-products">
 	<div data-role="header" data-position="fixed" data-theme="b">
         		<h5>Monthly Roaster</h5>
-        		<a href="#view-calendar" data-rel="back" data-icon="carat-l" data-iconpos="notext">Back</a>
+        		<a href="#" id="roasterproductback" data-icon="carat-l" data-iconpos="notext">Back</a>
         		
     		</div>
 	<div role="main" class="ui-content" data-inset="false" >
@@ -191,112 +192,118 @@
      </form>
     </div>
 </div>
+<div data-role="page" id="view-admin-menu">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5></h5>
+    	<a href="#" id="adminback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview">
+		    <li><a href="#view-users">Users</a></li>
+		    <li><a href="#view-products">Products</a></li>
+		    <li><a href="#view-areas">Areas</a></li>
+		</ul>
+	</div>
+</div>
         
+<div data-role="page" id="view-users">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5></h5>
+    	<a href="#" id="viewusersback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview">
+		    <li><a href="#view-pending-users">Pending Users</a></li>
+		    <li><a href="#view-active-users">Active Users</a></li>
+		</ul>
+	</div>
+</div>
+<div data-role="page" id="view-pending-users">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Pending Users</h5>
+    	<a href="#" id="viewpendingusersback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview" data-filter="true" id="pendingUsersList" data-filter-placeholder="Search Users" data-inset="true">
+		    
+		</ul>
+	</div>
+</div>    
+<div data-role="page" id="view-active-users">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Active Users</h5>
+    	<a href="#" id="viewactiveusersback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview" data-filter="true" id="userAreaList" data-filter-placeholder="Search Areas" data-inset="true">
+		    
+		</ul>
+	</div>
+</div>
+<div data-role="page" id="view-users-by-area">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Active Users</h5>
+    	<a href="#" id="viewusersbyareaback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview" data-filter="true" id="userList" data-filter-placeholder="Search Users" data-inset="true">
+		    
+		</ul>
+	</div>
+</div>
+<div data-role="page" id="activate-user">
+			<div data-role="header" data-position="fixed" data-theme="b">
+        		<h5>Activate User</h5>
+        		<a href="#" id="activateuserback" data-icon="carat-l" data-iconpos="notext">Back</a>
+        		
+    		</div>
+            <div role="main" class="ui-content" data-inset="false" >
+                 
+            <form style="background-color:#fff">
+                <div style="padding:2px 20px;" data-inset="true"  >
+                    
+                    
+                    <ul data-role="listview" data-inset="true">
+                        <li class="ui-field-contain">
+                            <input name="activate_userId" id="activate_userId" maxlength="30" value="" type="text" readOnly placeholder="User Id">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="activate_mobile" id="activate_mobile" maxlength="10" value="" type="text" placeholder="Mobile Number">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="activate_email" id="activate_email" maxlength="30" value="" type="text" placeholder="Email Address">
+                        </li>
+                        <li class="ui-field-contain">
+                        	<textarea name="activate_address" maxlength="200" id="activate_address" placeholder="Address"></textarea>
+                        </li>
+                        <li class="ui-field-contain">
+                        	<select name='activate_area' id='activate_area'>
+                        	</select>
+                        </li>
+                        <li>
+                        	<button type="button"  data-iconpos="right" data-mini="true" data-inline="true" id="addActivateProduct">Add Product</button>
+							<div data-role="collapsible-set" data-content-theme="a" data-iconpos="right" id="setActivateProduct">
+							    
+							</div>
+                        </li>
+                        <li class="ui-field-contain">
+                            
+                           	<fieldset id="activate_btn" class="ui-grid-a">
+		                          <a href="#" id="activate_submit" class="ui-btn ui-btn-raised clr-primary">Activate</a>
+		                      </fieldset>
+                        </li>
+                        <li class="ui-body ui-body-b"> </li>
 
-    <div data-role="page" id="dashboard">
 
-
-        <div data-role="header" data-position="fixed" class="wow fadeIn">
-
-             <a href="#dashboard-panel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
-
-            <h1 class="wow fadeIn he-center" data-wow-delay='0.4s'>Dashboard</h1>
-
-        </div><!-- /header -->
-
-       		<div data-role="panel"  id="dashboard-panel" data-display="overlay" data-position-fixed="true" >
-
+                    </ul>
+                    
+                    
+                                              </div>
+            </form>
+            </div>
         </div>
 
-        <div role="main" class="ui-content" id="dashboard-content">
-
-        </div><!-- /content -->
-
-
-    </div><!-- /page -->
-
-
-    <div data-role="page" id="listings">
-
-             <div data-role="header" data-position="fixed" class="wow fadeIn">
-
-             <a href="#listings-panel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
-
-            <h1 id="listings_title" class="wow fadeIn he-center" data-wow-delay='0.4s'>Pending Approvals</h1>
-
-        </div><!-- /header -->
-
-       	<div data-role="panel" id="listings-panel" data-display="overlay" data-position-fixed="true" >
-       	</div> <!-- /panel -->
-
-        <div role="main" class="ui-content" id="listings-content">
-        </div><!-- /content -->
-
-
-    </div><!-- /page -->
-
-
-    <div data-role="page" id="apps">
-
-        <div data-role="header" data-position="fixed" class="wow fadeIn">
-
-             <a href="#apps-panel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
-
-            <h1 class="wow fadeIn he-center" data-wow-delay='0.4s'>Create New</h1>
-
-        </div><!-- /header -->
-
-       	<div data-role="panel" id="apps-panel" data-display="overlay" data-position-fixed="true" >
-
-        </div> <!-- /panel -->
-
-        <div role="main" class="ui-content" id="apps-content">
-        </div><!-- /content -->
-
-
-    </div><!-- /page -->
-
-
-
-
-    <div data-role="page" id="appform">
-
-      <div data-role="header" data-position="fixed" class="wow fadeIn">
-          
-             <a href="#appform-panel" class="ui-btn ui-btn-left wow fadeIn" data-wow-delay='0.8s'><i class="zmdi zmdi-menu"></i></a>
-             <a href="#bottomsheet" id="morebutton" class="ui-btn ui-btn-right wow fadeIn" data-wow-delay='1.2s'><i class="zmdi zmdi-more-vert"></i></a>
-
-            <h1 id="app_form_title" class="wow fadeIn he-center" data-wow-delay='0.4s'>Create New</h1>
-
-        </div><!-- /header -->
-
-        <div data-role="panel" id="appform-panel" data-display="overlay" data-position-fixed="true" >
-         </div> <!-- /panel -->
-        
-        <div data-role="panel" id="bottomsheet" data-animate="false" data-position='bottom' data-display="overlay">
-            
-            
-            <div class='row around-xs'>
-                <div class='col-xs-auto'>
-                    <a href='#' id="pdf_download2" class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button' data-ajax='false'><i class='zmdi zmdi-collection-pdf zmd-2x'></i><strong>Download</strong></a>
-                </div>
-                <div class='col-xs-auto'>
-                    <a href='#' id="send_email" class='ui-bottom-sheet-link ui-btn ui-btn-inline waves-effect waves-button waves-effect waves-button' data-ajax='false'><i class='zmdi zmdi-email zmd-2x'></i><strong>Send Email</strong></a>
-                </div>
-                
-            </div>
-            
-            
-        </div><!-- /bottom action sheet -->
-
-
-        <div role="main" class="ui-content">
-						<form  action="#" name="appEntity" id="appform-content" class="form_class" onsubmit="return false;">
-						</form>
-        </div><!-- /content -->
-
-    </div><!-- /page -->
-
+    
 
 
 	</body>

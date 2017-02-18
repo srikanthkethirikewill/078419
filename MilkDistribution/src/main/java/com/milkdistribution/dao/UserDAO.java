@@ -2,6 +2,7 @@ package com.milkdistribution.dao;
 
 import java.util.List;
 
+import com.milkdistribution.entity.Area;
 import com.milkdistribution.entity.User;
 
 public interface UserDAO {
@@ -21,6 +22,8 @@ public interface UserDAO {
 	User getUserByMailId(String mailId);
 	
 	List<User> getActiveUsers();
+	
+	List<User> getActiveUsersByArea(Area area);
 	
 	List<User> getPendingUsers();
 }

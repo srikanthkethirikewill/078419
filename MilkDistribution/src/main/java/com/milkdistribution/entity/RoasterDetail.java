@@ -1,6 +1,5 @@
 package com.milkdistribution.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,7 +42,7 @@ public class RoasterDetail {
 		this.id = id;
 	}
 
-	@OneToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PRODUCT_ID")
 	public Product getProduct() {
 		return product;

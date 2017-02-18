@@ -38,6 +38,10 @@ import org.hibernate.annotations.GenericGenerator;
 	@NamedQuery(
 	name = "getUsers",
 	query = "from User s where s.status = ?"
+	),
+	@NamedQuery(
+	name = "getUsersByArea",
+	query = "from User s where s.status = ? and s.area = ?"
 	)
 })
 @Entity
@@ -141,7 +145,7 @@ public class User {
 		this.role = role;
 	}
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade= CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "AREA")
 	public Area getArea() {
 		return area;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.milkdistribution.entity.Area;
 import com.milkdistribution.entity.User;
 
 @Repository("userDao")
@@ -46,6 +47,17 @@ public class UserDAOImpl  extends CustomHibernateDaoSupport implements UserDAO {
 	@Override
 	public List<User> getActiveUsers() {
 		List<?> list = getHibernateTemplate().findByNamedQuery("getUsers", new Object[]{"A"});
+		List<User> userList = new ArrayList<User>();
+		for(Object obj:list) {
+			User roaster=(User)obj;
+			userList.add(roaster);
+		}
+		return userList;
+	}
+	
+	@Override
+	public List<User> getActiveUsersByArea(Area area) {
+		List<?> list = getHibernateTemplate().findByNamedQuery("getUsersByArea", new Object[]{"A", area});
 		List<User> userList = new ArrayList<User>();
 		for(Object obj:list) {
 			User roaster=(User)obj;
