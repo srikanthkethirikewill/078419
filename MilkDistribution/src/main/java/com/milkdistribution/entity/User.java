@@ -36,6 +36,10 @@ import org.hibernate.annotations.GenericGenerator;
 	query = "from User s where s.mailId = ?"
 	),
 	@NamedQuery(
+	name = "findUserByMobile",
+	query = "from User s where s.mobile = ?"
+	),
+	@NamedQuery(
 	name = "getUsers",
 	query = "from User s where s.status = ?"
 	),

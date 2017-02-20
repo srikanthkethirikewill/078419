@@ -29,6 +29,8 @@
 		<script src="js/login.js"></script>
 		<script src="js/Roaster.js"></script>
 		<script src="js/Users.js"></script>
+		<script src="js/Area.js"></script>
+		<script src="js/Product.js"></script>
 		 <!--  Customized css   -->
 
 			<style>
@@ -205,7 +207,95 @@
 		</ul>
 	</div>
 </div>
-        
+<div data-role="page" id="view-areas">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Areas</h5>
+    	<a href="#" id="viewareasback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    	<a href="#" id="addArea" data-icon="plus" data-iconpos="notext"></a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview" data-filter="true" id="areaList" data-filter-placeholder="Search Area" data-inset="true">
+		    
+		</ul>
+	</div>
+</div>  
+<div data-role="page" id="area-detail">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Area</h5>
+    	<a href="#" id="areadetailback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<form style="background-color:#fff">
+                <div style="padding:2px 20px;" data-inset="true"  >
+                    
+                    
+                    <ul data-role="listview" data-inset="true">
+                        <li class="ui-field-contain">
+                            <input name="areaDescription" id="areaDescription" maxlength="50" value="" type="text"  placeholder="Area">
+                        </li>
+                                                <li class="ui-field-contain">
+                            
+                           	<fieldset id="area_btn" class="ui-grid-a">
+		                          <a href="#" id="area_submit" class="ui-btn ui-btn-raised clr-primary">Save</a>
+		                      </fieldset>
+                        </li>
+                        <li class="ui-body ui-body-b"> </li>
+
+
+                    </ul>
+                    
+                    
+                                              </div>
+            </form>
+		
+	</div>
+</div>
+<div data-role="page" id="view-products">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Products</h5>
+    	<a href="#" id="viewproductsback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    	<a href="#" id="addProduct" data-icon="plus" data-iconpos="notext"></a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview" data-filter="true" id="productList" data-filter-placeholder="Search Product" data-inset="true">
+		    
+		</ul>
+	</div>
+</div>  
+<div data-role="page" id="product-detail">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Product</h5>
+    	<a href="#" id="productdetailback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<form style="background-color:#fff">
+                <div style="padding:2px 20px;" data-inset="true"  >
+                    
+                    
+                    <ul data-role="listview" data-inset="true">
+                        <li class="ui-field-contain">
+                            <input name="productDescription" id="productDescription" maxlength="50" value="" type="text"  placeholder="Product">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="productRate" id="productRate" maxlength="3" value="" type="number"  placeholder="Rate">
+                        </li>
+                        <li class="ui-field-contain">
+                            
+                           	<fieldset id="product_btn" class="ui-grid-a">
+		                          <a href="#" id="product_submit" class="ui-btn ui-btn-raised clr-primary">Save</a>
+		                      </fieldset>
+                        </li>
+                        <li class="ui-body ui-body-b"> </li>
+
+
+                    </ul>
+                    
+                    
+                                              </div>
+            </form>
+		
+	</div>
+</div>      
 <div data-role="page" id="view-users">
 	<div data-role="header" data-position="fixed" data-theme="b">
     	<h5></h5>

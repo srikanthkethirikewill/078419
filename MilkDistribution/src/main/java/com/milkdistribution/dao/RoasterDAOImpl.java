@@ -56,7 +56,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		calendar.set(Calendar.MILLISECOND, 0);
 		calendar.set(Calendar.AM_PM, Calendar.PM);
 		java.sql.Date dateObj = new java.sql.Date(calendar.getTime().getTime());
-		getHibernateTemplate().bulkUpdate("update RoasterDetail s set s.rate = ? where s.roaster.product = ? and s.roaster.date >= ?", new Object[] {product.getPrice(),product, dateObj});
+		getHibernateTemplate().bulkUpdate("update RoasterDetail s set s.rate = ? where s.product = ? and s.roaster in (from Roaster r where r.date >= ?)", new Object[] {product.getPrice(),product, dateObj});
 		
 	}
 

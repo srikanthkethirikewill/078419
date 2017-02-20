@@ -149,6 +149,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public User getUser(UserDTO userDTO, boolean isUserId) {
+		User user = isUserId ? (userDAO.getUserByUserId(userDTO.getUser().getUserId())) : (userDAO.getUserByMobile(userDTO.getUser().getMobile()));
+		
+		return user;
+	}
+	
+	@Override
 	public User forgotUserDetails(UserDTO userDTO) {
 		User user = userDAO.getUserByMailId(userDTO.getUser().getMailId());
 		if (user!= null) {
@@ -156,7 +163,7 @@ public class UserServiceImpl implements UserService {
 			mailMessage.setFrom("srikanthreddy.kethiri@gmail.com");
 			mailMessage.setTo(user.getMailId());
 			mailMessage.setSubject("Password for Milk Distribution App");
-			mailMessage.setText("Your Password for Milk Distribution App: "+user.getPassword());
+			mailMessage.setText("Your User Id and Password for the Milk Distribution App \n User Id :"+user.getUserId() + "\n Password:"+user.getPassword());
 			mailSender.send(mailMessage);
 		}
 		return user;

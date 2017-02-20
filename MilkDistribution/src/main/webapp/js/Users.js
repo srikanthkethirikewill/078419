@@ -213,7 +213,7 @@ $(document).on("pageshow","#activate-user",function(){
         $( "#setActivateProduct" ).trigger('create');
         $("#activateRemoveProduct"+activate_nextId).off('click');
         $("#activateRemoveProduct"+activate_nextId).click (function (event) {
-        	var str = event.target.id.toString().substring(17);
+        	var str = event.target.id.toString().substring(21);
         	$("#setActivateProduct"+str).hide();
         });
     });

@@ -19,4 +19,6 @@ public interface UserService {
 	UserDTO getVerifiedUsers(String areaId);
 	
 	UserDTO getPendingUsers();
+	
+	User getUser(UserDTO userDTO, boolean isUserId);
 }

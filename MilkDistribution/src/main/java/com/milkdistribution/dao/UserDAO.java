@@ -26,4 +26,6 @@ public interface UserDAO {
 	List<User> getActiveUsersByArea(Area area);
 	
 	List<User> getPendingUsers();
+	
+	User getUserByMobile(String mobile);
 }

@@ -68,6 +68,7 @@ $( "#signin" ).click(function(e) {
     $( "#forgotpwd" ).click(function(e) {
 
          e.preventDefault();
+         $('#forgot_email').val('');
         $("#popupFpwd").popup('open',{'transition':'flip'});
 
     });
@@ -79,7 +80,48 @@ $( "#signin" ).click(function(e) {
        //$("#popupSignup").popup('open',{'transition':'flip'});
 
    });
-
+    $('#signup_userId').blur(function () {
+    	var signup_userId = $('#signup_userId').val();
+    	if (signup_userId != '') {
+	    	var userObj = {};
+	    	userObj.userId = signup_userId;
+	    	var reqObj = {};
+	    	reqObj.user = userObj;
+	    	var jsonRequest = prepareRequestData (reqObj, 'userIdExists');
+	    	loadingSpinner.show();
+	        $.ajax({
+	       	 type: 'POST',
+	            url: base_URL + "/userIdExists",
+	            data: jsonRequest,
+	            dataType: 'json',
+	            contentType: 'application/json; charset=utf-8',
+	            success: userIdExistsSuccess,
+	            error: userIdExistsFail
+	
+	        });
+    	}
+    });
+    $('#signup_mobile').blur(function () {
+    	var signup_mobile = $('#signup_mobile').val();
+    	if (signup_mobile != '') {
+	    	var userObj = {};
+	    	userObj.mobile = signup_mobile;
+	    	var reqObj = {};
+	    	reqObj.user = userObj;
+	    	var jsonRequest = prepareRequestData (reqObj, 'mobileExists');
+	    	loadingSpinner.show();
+	        $.ajax({
+	       	 type: 'POST',
+	            url: base_URL + "/mobileExists",
+	            data: jsonRequest,
+	            dataType: 'json',
+	            contentType: 'application/json; charset=utf-8',
+	            success: mobileExistsSuccess,
+	            error: mobileExistsFail
+	
+	        });
+    	}
+    });
     $( "#forgot_submit" ).click(function(e) {
 
 
@@ -88,27 +130,28 @@ $( "#signin" ).click(function(e) {
         var forgot_email = $('#forgot_email').val();
 
         if(forgot_email) {
+        	var userObj = {};
+        	userObj.mailId = forgot_email;
+        	var reqObj = {};
+        	reqObj.user = userObj;
+        	var jsonRequest = prepareRequestData (reqObj, 'forgotUserDetails');
+        	loadingSpinner.show();
+            $.ajax({
+           	 type: 'POST',
+                url: base_URL + "/forgotUserDetails",
+                data: jsonRequest,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: forgotPasswordSuccess,
+                error: forgotPasswordFail
 
-            var ajaxURL = 'https://app.bizbee.io/noauth/signup/user/forgotPassword?email=' + forgot_email;
-
-            //console.log("forgotpwd url:" + ajaxURL);
-
-            //show loading view
-            loadingSpinner.show();
-
-            $.bbObj.ajax({
-                         type: 'POST',
-                         url: ajaxURL,
-                         data: {},
-                         success: fpwdSuccess,
-                         error: fpwdFail
             });
 
 
 
         } else {
 
-        swal("Sign In Error", "Please enter username/password");
+        swal("Forgot Password Error", "Please enter Email Address");
 
         }
 
@@ -125,6 +168,7 @@ $(document).on("pageshow","#login",function(){
 	storage.set('USER', '');
 	$('#login').find("input[type=text], input[type=password]").val("");
 });
+
 $(document).on("pageshow","#signup",function(){
 	$('#signup').find("input[type=text], input[type=password], textarea").val("");
 	user_nextId = 0;
@@ -153,13 +197,53 @@ $(document).on("pageshow","#signup",function(){
     });
 });
 
-function fpwdSuccess(data) {
+function mobileExistsSuccess(data) {
+	loadingSpinner.hide();
+	if (data.result.errorCode == "failure") {
+    	
+    } else if (data.body == "null") {
+    	
+    } else {
+    	var flag = data.body;
+    	if (flag == true) {
+    		swal("Error", "User already Exists with the same mobile.");
+    		$('#signup_mobile').val('');
+    	}
+    }
+}
+function mobileExistsFail(data) {
+	loadingSpinner.hide();
+}
+function userIdExistsSuccess(data) {
+	loadingSpinner.hide();
+	if (data.result.errorCode == "failure") {
+    	
+    } else if (data.body == "null") {
+    	
+    } else {
+    	var flag = data.body;
+    	if (flag == true) {
+    		swal("Error", "User Id already Exists");
+    		$('#signup_userId').val('');
+    	}
+    }
+}
+function userIdExistsFail(data) {
+	loadingSpinner.hide();
+}
+function forgotPasswordSuccess(data) {
     loadingSpinner.hide();
-
+    if (data.result.errorCode == "failure") {
+    	swal("Error", "There was an error in communicating with the server.");
+    	return;
+    } else if (data.body == "null") {
+    	swal("Forgot Password Error", "Please enter valid Email Address");
+    	return;
+    }
 
     swal({
          title: "Success",
-         text: "Please check your email for the password reset link.",
+         text: "Please check your email for the password",
          closeOnConfirm: true,
          },
          function(){
@@ -168,9 +252,9 @@ function fpwdSuccess(data) {
 
 }
 
-function fpwdFail(data) {
+function forgotPasswordFail(data) {
     loadingSpinner.hide();
-    swal("Error", "Problem communicationg with server.");
+    swal("Error", "There was an error in communicating with the server.");
 
 }
 
@@ -185,6 +269,10 @@ function authenticattionSuccess(data) {
 	   swal("Error", "Invalid User Id Or Password");
    } else {
 	   var user = data.body;
+	   if (user.status == 'I') {
+		   swal("Pending For Verification", "User is under Pending for verification");
+		   return;
+	   }
 	   if (user.role == "A") {
 		   storage.set('USER_ROLE', "A");
 		   $.mobile.changePage($("#view-admin-menu"));

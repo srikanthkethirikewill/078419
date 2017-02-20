@@ -35,6 +35,16 @@ public class UserDAOImpl  extends CustomHibernateDaoSupport implements UserDAO {
 	}
 	
 	@Override
+	public User getUserByMobile(String mobile) {
+		List<?> list = getHibernateTemplate().findByNamedQuery("findUserByMobile", new Object[]{mobile});
+		if (list == null || list.size()==0) {
+			return null;
+		}
+		
+		return (User)list.get(0);
+	}
+	
+	@Override
 	public User getUserByMailId(String mailId) {
 		List<?> list = getHibernateTemplate().findByNamedQuery("findUserByMail", new Object[]{mailId});
 		if (list == null || list.size()==0) {

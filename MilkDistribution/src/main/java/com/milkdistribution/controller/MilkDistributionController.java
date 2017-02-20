@@ -97,6 +97,24 @@ public class MilkDistributionController {
 	    return responseDTO;
 	}
 	
+	@RequestMapping(value = "/userIdExists", method = RequestMethod.POST) 
+	public ResponseDTO<Boolean> userIdExists(@RequestBody RequestDTO<UserDTO> request) {  
+		UserDTO userDTO = request.getBody();
+		ResponseDTO<Boolean> responseDTO = new ResponseDTO<Boolean>();
+		User user=userService.getUser(userDTO, true);
+		responseDTO.setBody((user!=null));
+	    return responseDTO;
+	}
+	
+	@RequestMapping(value = "/mobileExists", method = RequestMethod.POST) 
+	public ResponseDTO<Boolean> mobileExists(@RequestBody RequestDTO<UserDTO> request) {  
+		UserDTO userDTO = request.getBody();
+		ResponseDTO<Boolean> responseDTO = new ResponseDTO<Boolean>();
+		User user=userService.getUser(userDTO, false);
+		responseDTO.setBody((user!=null));
+	    return responseDTO;
+	}
+	
 	@RequestMapping(value = "/forgotUserDetails", method = RequestMethod.POST) 
 	public ResponseDTO<User> forgotUserDetails(@RequestBody RequestDTO<UserDTO> request) {  
 		UserDTO userDTO = request.getBody();
