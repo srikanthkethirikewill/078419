@@ -190,18 +190,33 @@ public class RoasterServiceImpl implements RoasterService{
 			detail.setProduct(productDAO.getProduct(detail.getProduct().getId()));
 			detail.setRate(detail.getProduct().getPrice());
 		}
+		int count = 0;
 		while (toCalendar.compareTo(fromCalendar) >= 0 ) {
 			Roaster roaster = new Roaster();
 			roaster.setArea(user.getArea());
 			roaster.setDate(fromCalendar.getTime());
 			roaster.setStatus("A");
 			roaster.setUser(user);
-			for(RoasterDetail detail:roasterDetails) {
-				detail.setRoaster(roaster);
+			if (count>0) {
+				Set<RoasterDetail> roasterDetailsCopy = new HashSet<RoasterDetail>();
+				for(RoasterDetail detail:roasterDetails) {
+					RoasterDetail detailCopy = new RoasterDetail();
+					detailCopy.setProduct(detail.getProduct());
+					detailCopy.setQty(detail.getQty());
+					detailCopy.setRate(detail.getRate());
+					detailCopy.setRoaster(roaster);
+					roasterDetailsCopy.add(detailCopy);
+				}
+				roasterDetails = roasterDetailsCopy;
+			} else {
+				for(RoasterDetail detail:roasterDetails) {
+					detail.setRoaster(roaster);
+				}
 			}
 			roaster.setRoasterDetails(roasterDetails);
 			roasterDAO.save(roaster);
 			fromCalendar.set(Calendar.DATE, fromCalendar.get(Calendar.DATE)+1);
+			count++;
 		}
 	}
 	
