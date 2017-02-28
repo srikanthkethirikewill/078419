@@ -11,4 +11,5 @@ public interface BillingService {
 	
 	void updateBilling(Billing billing);
 
+	Billing getCurrentMonthBilling(BillingDTO billingDTO);
 }

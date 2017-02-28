@@ -1,4 +1,4 @@
-var base_URL = 'http://52.37.179.16:8181/MilkDistribution/rest';
+var base_URL = 'http://localhost:8080/MilkDistribution/rest';
 
 function prepareRequestData(bodyData, serviceName) {
 	var jsonRequest = {};

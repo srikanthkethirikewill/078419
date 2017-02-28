@@ -204,6 +204,15 @@ public class MilkDistributionController {
 		return responseDTO;
 	}
 	
+	@RequestMapping(value = "/getCurrentMonthBilling", method = RequestMethod.POST) 
+	public ResponseDTO<Billing> getCurrentMonthBilling(@RequestBody RequestDTO<BillingDTO> request) { 
+		BillingDTO billingDTO = request.getBody();
+		Billing billing = billingService.getCurrentMonthBilling(billingDTO);
+		ResponseDTO<Billing> responseDTO = new ResponseDTO<Billing>();
+		responseDTO.setBody(billing);
+		return responseDTO;
+	}
+	
 	
 	
 	@RequestMapping(value = "/updateBilling", method = RequestMethod.POST) 
@@ -232,7 +241,8 @@ public class MilkDistributionController {
 	@RequestMapping(value = "/createRoasters", method = RequestMethod.POST)
 	public ResponseDTO<String> createRoasters(@RequestBody RequestDTO<String> request)throws Exception {
 		//roasterService.createRoasters();
-		roasterService.generateRoaster();
+		//roasterService.generateRoaster();
+		billingService.performBilling();
 		ResponseDTO<String> responseDTO = new ResponseDTO<String>();
 		return responseDTO;
 	}

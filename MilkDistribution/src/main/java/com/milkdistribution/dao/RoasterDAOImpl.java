@@ -111,7 +111,7 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 	@Override
 	public List<Billing> prepareBilling() {
 		// TODO Auto-generated method stub
-		String query = "select s.user,(select sum(d.rate) from RoasterDetail d where d.roaster = s group by d.roaster) from Roaster s where s.status = ? and s.date >= ? and s.date<= ? group by s.user";
+		String query = "select s.user,sum(s.amount), (select (b.totalAmount - b.receivedAmount) from Billing b where b.user=s.user and b.month = ? and b.year = ?) from Roaster s where s.status = ? and s.date >= ? and s.date<= ? group by s.user";
 		Calendar fromCalendar = Calendar.getInstance();
 		fromCalendar.set(Calendar.DAY_OF_MONTH, 1);
 		fromCalendar.set(Calendar.HOUR, 0);
@@ -127,19 +127,24 @@ public class RoasterDAOImpl extends CustomHibernateDaoSupport implements Roaster
 		toCalendar.set(Calendar.AM_PM, Calendar.PM);
 		DateFormatSymbols symbols = new DateFormatSymbols();
 		String month = symbols.getMonths()[fromCalendar.get(Calendar.MONTH)];
+		Calendar previousCalendar = Calendar.getInstance();
+		previousCalendar.set(Calendar.MONTH, previousCalendar.get(Calendar.MONTH)-1);
+		String previousMonth = symbols.getMonths()[previousCalendar.get(Calendar.MONTH)];
 		java.sql.Date fromDateObj = new java.sql.Date(fromCalendar.getTime().getTime());
 		java.sql.Date toDateObj = new java.sql.Date(toCalendar.getTime().getTime());
-		Object[] values = new Object[] {"A", fromDateObj, toDateObj};
+		Object[] values = new Object[] {previousMonth, previousCalendar.get(Calendar.YEAR)+"", "A", fromDateObj, toDateObj};
 		List<?> list = getHibernateTemplate().find(query, values);
 		List<Billing> billingList = new ArrayList<Billing>();
 		for(Object obj:list) {
 			Object[] row = (Object[])obj;
 			Billing billing = new Billing();
 			billing.setStatus("I");
-			billing.setMonth(month);
+			billing.setMonth(month.substring(0, 3));
 			billing.setYear(fromCalendar.get(Calendar.YEAR)+"");
 			billing.setUser((User)row[0]);
 			billing.setBillAmount((Double)row[1]);
+			billing.setPreviousDue((row[2]== null ? 0:(Double)row[2]));
+			billing.setTotalAmount(billing.getBillAmount()+billing.getPreviousDue());
 			billingList.add(billing);
 		}
 		return billingList;

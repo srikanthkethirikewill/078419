@@ -49,6 +49,14 @@ public class UserServiceImpl implements UserService {
 		User user = userDTO.getUser();
 		user = setEntities(user);
 		userDAO.save(user);
+		if (user.getMailId() != null && (!"".equals(user.getMailId()))) {
+			SimpleMailMessage mailMessage= new SimpleMailMessage();
+			mailMessage.setFrom("srikanthreddy.kethiri@gmail.com");
+			mailMessage.setTo(user.getMailId());
+			mailMessage.setSubject("Welcome to Milk Distribution App");
+			mailMessage.setText("You have successfully registered in Milk Distribution App. Please give us some time for activating your account");
+			mailSender.send(mailMessage);
+		}
 	}
 
 	@Override
@@ -67,6 +75,14 @@ public class UserServiceImpl implements UserService {
 			calendar.set(Calendar.AM_PM, Calendar.PM);
 			roasterDAO.delete(calendar.getTime(), user);
 			roasterService.saveRoaster(user, calendar);
+		}
+		if (user.getMailId() != null && (!"".equals(user.getMailId()))) {
+			SimpleMailMessage mailMessage= new SimpleMailMessage();
+			mailMessage.setFrom("srikanthreddy.kethiri@gmail.com");
+			mailMessage.setTo(user.getMailId());
+			mailMessage.setSubject("Details Update in Milk Distribution App");
+			mailMessage.setText("Your details has been updated in Milk Distribution App. Please give us some time for activating your account");
+			mailSender.send(mailMessage);
 		}
 		
 	}
@@ -95,7 +111,14 @@ public class UserServiceImpl implements UserService {
 			calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)+1);
 			roasterService.saveRoaster(user, calendar);
 		}
-		
+		if (user.getMailId() != null && (!"".equals(user.getMailId()))) {
+			SimpleMailMessage mailMessage= new SimpleMailMessage();
+			mailMessage.setFrom("srikanthreddy.kethiri@gmail.com");
+			mailMessage.setTo(user.getMailId());
+			mailMessage.setSubject("User Activation in Milk Distribution App");
+			mailMessage.setText("You have been activated in Milk Distribution App. Now you can use our services.");
+			mailSender.send(mailMessage);
+		}
 	}
 	
 	private User setEntities(User user) {
@@ -126,6 +149,8 @@ public class UserServiceImpl implements UserService {
 			userObj.setSeq(user.getSeq());
 			userObj.setStatus(user.getStatus());
 			userObj.setUserId(user.getUserId());
+			userObj.setFirstName(user.getFirstName());
+			userObj.setLastName(user.getLastName());
 		} else {
 			userObj = user;
 			if(requirement != null) {

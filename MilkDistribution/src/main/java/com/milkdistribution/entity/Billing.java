@@ -21,11 +21,15 @@ import org.hibernate.annotations.GenericGenerator;
 	),
 	@NamedQuery(
 	name = "findBillingList",
-	query = "from Billing s where s.month = ? and s.year = ?"
+	query = "from Billing s where s.user = ?"
 	),
 	@NamedQuery(
 	name = "findBill",
 	query = "from Billing s where s.id = ?"
+	),
+	@NamedQuery(
+	name = "findCurrentMonthBill",
+	query = "from Billing s where s.month = ? and s.year = ? and s.user = ?"
 	)
 })
 @Entity
@@ -40,6 +44,10 @@ public class Billing {
 	private String Year;
 	
 	private double billAmount;
+	
+	private double previousDue;
+	
+	private double totalAmount;
 	
 	private User user;
 	
@@ -113,6 +121,22 @@ public class Billing {
 		this.status = status;
 	}
 	
-	
+	@Column(name = "PREVIOUS_DUE", unique = false, nullable = true)
+	public double getPreviousDue() {
+		return previousDue;
+	}
+
+	public void setPreviousDue(double previousDue) {
+		this.previousDue = previousDue;
+	}
+
+	@Column(name = "TOTAL_AMOUNT", unique = false, nullable = true)
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 
 }

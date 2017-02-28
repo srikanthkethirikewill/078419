@@ -69,6 +69,12 @@ public class User {
 	
 	private String role;
 	
+	private String firstName;
+	
+	private String lastName;
+	
+	private double advanceAmount;
+	
 	private Area area;
 	
 	private Set<UserDailyRequirement> requirement;
@@ -176,5 +182,33 @@ public class User {
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
+	
+	@Column(name = "FIRST_NAME", unique = false, nullable = true, length = 50)
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	@Column(name = "LAST_NAME", unique = false, nullable = true, length = 50)
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	@Column(name = "ADVANCE_AMOUNT", unique = false, nullable = true, length = 10)
+	public double getAdvanceAmount() {
+		return advanceAmount;
+	}
+
+	public void setAdvanceAmount(double advanceAmount) {
+		this.advanceAmount = advanceAmount;
+	}
+	
 	
 }

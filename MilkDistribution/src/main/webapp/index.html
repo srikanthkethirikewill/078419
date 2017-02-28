@@ -31,6 +31,7 @@
 		<script src="js/Users.js"></script>
 		<script src="js/Area.js"></script>
 		<script src="js/Product.js"></script>
+		<script src="js/Billing.js"></script>
 		 <!--  Customized css   -->
 
 			<style>
@@ -110,6 +111,12 @@
                     
                     
                     <ul data-role="listview" data-inset="true">
+                    	<li class="ui-field-contain">
+                            <input name="signup_firstName" id="signup_firstName" maxlength="50" value="" type="text" placeholder="First Name">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="signup_lastName" id="signup_lastName" maxlength="50" value="" type="text" placeholder="Last Name">
+                        </li>
                         <li class="ui-field-contain">
                             <input name="signup_userId" id="signup_userId" maxlength="30" value="" type="text" placeholder="User Id">
                         </li>
@@ -207,6 +214,130 @@
 		</ul>
 	</div>
 </div>
+<div data-role="page" id="view-user-menu">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5></h5>
+    	<a href="#" id="viewusermenuback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview">
+		    <li><a href="#view-calendar">Roaster</a></li>
+		    <li><a href="#view-previous-bills">Billing History</a></li>
+		    <li><a href="#view-billing">Billing</a></li>
+		    <li><a href="#edit-user">Edit User</a></li>
+		</ul>
+	</div>
+</div>
+<div data-role="page" id="view-previous-bills">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Billing History</h5>
+    	<a href="#" id="viewpreviousbillsback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<ul data-role="listview" id="billList" data-inset="true">
+		    
+		</ul>
+	</div>
+</div> 
+<div data-role="page" id="view-billing">
+	<div data-role="header" data-position="fixed" data-theme="b">
+    	<h5>Current Month Billing</h5>
+    	<a href="#" id="viewbillingback" data-icon="carat-l" data-iconpos="notext">Back</a>
+    </div>
+	<div role="main" class="ui-content" data-inset="false" >
+		<form style="background-color:#fff">
+                <div style="padding:2px 20px;" data-inset="true"  >
+                    
+                    
+                    <ul data-role="listview" data-inset="true">
+                    	<li class="ui-field-contain">
+                    		<label for="billing_billAmount">Bill Amount</label>
+                            <input name="billing_billAmount" id="billing_billAmount" value="" type="number" step="any" readOnly>
+                        </li>
+                    	<li class="ui-field-contain">
+                    		<label for="billing_previousDue">Previous Due</label>
+                            <input name="billing_previousDue" id="billing_previousDue" value="" type="number" step="any" readOnly>
+                        </li>
+                        <li class="ui-field-contain">
+                    		<label for="billing_totalAmount">Total Amount</label>
+                            <input name="billing_totalAmount" id="billing_totalAmount" value="" type="number" step="any" readOnly>
+                        </li>
+                        <li class="ui-field-contain">
+                    		<label for="billing_receivedAmount">Received Amount</label>
+                            <input name="billing_receivedAmount" id="billing_receivedAmount" value="" type="number" step="any">
+                        </li>
+                        
+                        <li class="ui-field-contain billing-admin">
+                            
+                           	<fieldset id="billing_btn" class="ui-grid-a">
+		                          <a href="#" id="billing_submit" class="ui-btn ui-btn-raised clr-primary">Save</a>
+		                      </fieldset>
+                        </li>
+                        <li class="ui-body ui-body-b"> </li>
+
+
+                    </ul>
+                    
+                    
+                </div>
+            </form>
+		
+	</div>
+</div>
+<div data-role="page" id="edit-user">
+			<div data-role="header" data-position="fixed" data-theme="b">
+        		<h5>Edit User</h5>
+        		<a href="#" id="edituserback" data-rel="back" data-icon="carat-l" data-iconpos="notext">Back</a>
+        		
+    		</div>
+            <div role="main" class="ui-content" data-inset="false" >
+                 
+            <form style="background-color:#fff">
+                <div style="padding:2px 20px;" data-inset="true"  >
+                    
+                    
+                    <ul data-role="listview" data-inset="true">
+                    	<li class="ui-field-contain">
+                            <input name="edit_userId" id="edit_userId" maxlength="30" value="" type="text" readOnly placeholder="User Id">
+                        </li>
+                    	<li class="ui-field-contain">
+                            <input name="edit_firstName" id="edit_firstName" maxlength="50" value="" type="text" placeholder="First Name">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="edit_lastName" id="edit_lastName" maxlength="50" value="" type="text" placeholder="Last Name">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="edit_mobile" id="edit_mobile" maxlength="10" value="" type="text" placeholder="Mobile Number">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="edit_email" id="edit_email" maxlength="30" value="" type="text" placeholder="Email Address">
+                        </li>
+                        <li class="ui-field-contain">
+                        	<textarea name="edit_address" maxlength="200" id="edit_address" placeholder="Address"></textarea>
+                        </li>
+                        <li>
+                        	<button type="button"  data-iconpos="right" data-mini="true" data-inline="true" id="addEditProduct">Add Product</button>
+							<div data-role="collapsible-set" data-content-theme="a" data-iconpos="right" id="setEditProduct">
+							    
+							</div>
+                        </li>
+                        <li class="ui-field-contain">
+                            
+                           	<fieldset id="edit_btn" class="ui-grid-a">
+		                          <a href="#" id="edit_submit" class="ui-btn ui-btn-raised clr-primary">Save</a>
+		                      </fieldset>
+                        </li>
+                        <li class="ui-body ui-body-b"> </li>
+
+
+                    </ul>
+                    
+                    
+                </div>
+            </form>
+            </div>
+        </div>
+
 <div data-role="page" id="view-areas">
 	<div data-role="header" data-position="fixed" data-theme="b">
     	<h5>Areas</h5>
@@ -356,6 +487,12 @@
                     <ul data-role="listview" data-inset="true">
                         <li class="ui-field-contain">
                             <input name="activate_userId" id="activate_userId" maxlength="30" value="" type="text" readOnly placeholder="User Id">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="activate_firstName" id="activate_firstName" maxlength="50" value="" type="text" placeholder="First Name">
+                        </li>
+                        <li class="ui-field-contain">
+                            <input name="activate_lastName" id="activate_lastName" maxlength="50" value="" type="text" placeholder="Last Name">
                         </li>
                         <li class="ui-field-contain">
                             <input name="activate_mobile" id="activate_mobile" maxlength="10" value="" type="text" placeholder="Mobile Number">

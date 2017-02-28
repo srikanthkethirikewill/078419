@@ -3,12 +3,15 @@ package com.milkdistribution.dto;
 import java.util.List;
 
 import com.milkdistribution.entity.Billing;
+import com.milkdistribution.entity.User;
 
 public class BillingDTO {
 
 	private String month;
 	
 	private String year;
+	
+	private User user;
 	
 	private List<Billing> billList;
 
@@ -35,6 +38,12 @@ public class BillingDTO {
 	public void setBillList(List<Billing> billList) {
 		this.billList = billList;
 	}
-	
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

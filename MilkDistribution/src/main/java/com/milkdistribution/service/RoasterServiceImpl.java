@@ -147,7 +147,7 @@ public class RoasterServiceImpl implements RoasterService{
 				detail.setQty(requirement.getQty());
 				double productPrice = requirement.getProduct().getPrice();
 				detail.setRate(productPrice);
-				price = price + productPrice;
+				price = price + (productPrice * requirement.getQty());
 				detail.setRoaster(roaster);
 				roasterDetails.add(detail);
 			}
@@ -186,9 +186,11 @@ public class RoasterServiceImpl implements RoasterService{
 		User user = userDAO.getUser(roasterDTO.getUser().getId());
 		roasterDAO.deleteByRange(fromCalendar.getTime(), toCalendar.getTime(), user);
 		Set<RoasterDetail> roasterDetails = roasterDTO.getRoasterDetails();
+		double amount=0;
 		for(RoasterDetail detail:roasterDetails) {
 			detail.setProduct(productDAO.getProduct(detail.getProduct().getId()));
 			detail.setRate(detail.getProduct().getPrice());
+			amount = amount + (detail.getQty() * detail.getRate());
 		}
 		int count = 0;
 		while (toCalendar.compareTo(fromCalendar) >= 0 ) {
@@ -196,6 +198,7 @@ public class RoasterServiceImpl implements RoasterService{
 			roaster.setArea(user.getArea());
 			roaster.setDate(fromCalendar.getTime());
 			roaster.setStatus("A");
+			roaster.setAmount(amount);
 			roaster.setUser(user);
 			if (count>0) {
 				Set<RoasterDetail> roasterDetailsCopy = new HashSet<RoasterDetail>();
@@ -246,7 +249,7 @@ public class RoasterServiceImpl implements RoasterService{
 				detail.setQty(requirement.getQty());
 				double productPrice = requirement.getProduct().getPrice();
 				detail.setRate(productPrice);
-				price = price + productPrice;
+				price = price + (productPrice * requirement.getQty());
 				detail.setRoaster(roaster);
 				roasterDetails.add(detail);
 			}
@@ -288,7 +291,7 @@ public class RoasterServiceImpl implements RoasterService{
 						detail.setQty(requirement.getQty());
 						double productPrice = requirement.getProduct().getPrice();
 						detail.setRate(productPrice);
-						price = price + productPrice;
+						price = price + (productPrice * requirement.getQty());
 						detail.setRoaster(roaster);
 						roasterDetails.add(detail);
 					}

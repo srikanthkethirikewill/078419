@@ -16,13 +16,21 @@ $(document).on("pageshow","#view-calendar",function(){
 	   $('#calendar-table').css('min-height', height);
 	   $('#user_back').off('click');
 	   $('#user_back').click(function () {
-			if ( storage.get('USER_ROLE') == 'A') {
+		    $.mobile.changePage($('#view-user-menu'));
+		    
+		});
+});
+$(document).on("pageshow","#view-user-menu",function(){
+	 $('#viewusermenuback').off('click');
+	   $('#viewusermenuback').click(function () {
+		    if ( storage.get('USER_ROLE') == 'A') {
 				$.mobile.changePage($("#view-users-by-area"));
 			} else {
 				 $.mobile.changePage($("#login"));
 			}
 		});
 });
+
 
  $( document ).on("pageshow","#view-roaster-products", function() {
 	 	var dateValDate = storage.get("roaster_date");
@@ -168,7 +176,7 @@ function loadRoasterSuccess(data) {
 				  prodAmount= prodAmount + parseFloat(roasterDetails[h].rate);
 			  }
 			  roasterData[g].prodQty = prodQty;
-			  roasterData[g].prodAmount = prodAmount.toFixed(2);
+			  roasterData[g].prodAmount =  parseFloat(roasterData[g].amount).toFixed(2);
 			  if (roasterData[g].date != null && roasterData[g].date != '') {
 				  var dateNum = parseInt(new Date(parseInt(roasterData[g].date.toString())).getDate());
 				  roasters[dateNum] = roasterData[g];
@@ -189,11 +197,21 @@ function parseDate(s) {
   var b = s.split(/\D/);
   return new Date(b[0], --b[1], b[2]);
 }
+function containsElement(arr, elem) {
+	if (arr != null) {
+		for(var t=0;t<arr.length;t++) {
+			if (arr[t] == elem) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
 function validateRoaster() {
 	var toDateVal = parseDate($('#toDate').val());
 	var maxDateVal = parseDate($('#toDate').attr("max"));
     var fromDateVal = parseDate($('#fromDate').val());
-    
+    var prodTypeArr = [];
     if (toDateVal < fromDateVal) {
     	roasterValidationError("To Date should be greater than From Date");
     	return false;
@@ -227,6 +245,13 @@ function validateRoaster() {
         		roasterValidationError("Please enter Product Qty as more than 1");
             	return false;
         	}
+        	
+        	 if (containsElement(prodTypeArr, prodType)) {
+        		 roasterValidationError("Selected Product Types should not be duplicate");
+             	 return false;
+        	 } else {
+        		 prodTypeArr.push(prodType);
+        	 }
     	}
     	
     }

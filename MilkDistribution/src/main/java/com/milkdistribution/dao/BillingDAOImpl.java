@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.milkdistribution.entity.Billing;
+import com.milkdistribution.entity.User;
 
 @Repository("billingDao")
 public class BillingDAOImpl extends CustomHibernateDaoSupport implements BillingDAO {
@@ -16,6 +17,7 @@ public class BillingDAOImpl extends CustomHibernateDaoSupport implements Billing
 		getHibernateTemplate().saveOrUpdate(billing);
 	}
 	
+	@Override
 	public Billing getBilling(String id) {
 		List<?> list = getHibernateTemplate().findByNamedQuery("findBill", new Object[]{id});
 		if (list == null || list.size()==0) {
@@ -23,11 +25,20 @@ public class BillingDAOImpl extends CustomHibernateDaoSupport implements Billing
 		}
 		return (Billing)list.get(0);
 	}
+	
+	@Override
+	public Billing getBilling(String month,String year,User user) {
+		List<?> list = getHibernateTemplate().findByNamedQuery("findCurrentMonthBill", new Object[]{month,year,user});
+		if (list == null || list.size()==0) {
+			return null;
+		}
+		return (Billing)list.get(0);
+	}
 
 	@Override
-	public List<Billing> getBilling(String month, String year) {
+	public List<Billing> getBilling(User user) {
 		// TODO Auto-generated method stub
-		List<?> list = getHibernateTemplate().findByNamedQuery("findBillingList", new Object[]{month,year});
+		List<?> list = getHibernateTemplate().findByNamedQuery("findBillingList", new Object[]{user});
 		List<Billing> billingList = new ArrayList<Billing>();
 		for(Object obj:list) {
 			Billing billing = (Billing)obj;

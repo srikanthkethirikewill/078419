@@ -9,8 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.milkdistribution.dao.BillingDAO;
 import com.milkdistribution.dao.RoasterDAO;
+import com.milkdistribution.dao.UserDAO;
 import com.milkdistribution.dto.BillingDTO;
 import com.milkdistribution.entity.Billing;
+import com.milkdistribution.entity.User;
 
 @Service("billingService")
 @Transactional(propagation=Propagation.REQUIRED, readOnly=false)
@@ -18,6 +20,9 @@ public class BillingServiceImpl implements BillingService {
 	
 	@Autowired
 	BillingDAO billingDAO;
+	
+	@Autowired
+	UserDAO userDAO;
 	
 	@Autowired
 	RoasterDAO roasterDAO;
@@ -38,14 +43,22 @@ public class BillingServiceImpl implements BillingService {
 	}
 	
 	public void getBillingList(BillingDTO billingDTO) {
-		List<Billing> billList = billingDAO.getBilling(billingDTO.getMonth(), billingDTO.getYear());
+		User user = userDAO.getUser(billingDTO.getUser().getId());
+		List<Billing> billList = billingDAO.getBilling(user);
 		billingDTO.setBillList(billList);
 	}
 	
 	public void updateBilling(Billing billing) {
 		Billing billingObj = billingDAO.getBilling(billing.getId());
-		billingObj.setStatus("C");
+		billingObj.setStatus((billing.getReceivedAmount() >= billing.getTotalAmount()) ? "C" : "I");
+		billingObj.setReceivedAmount(billing.getReceivedAmount());
 		billingDAO.save(billingObj);
+	}
+	
+	public Billing getCurrentMonthBilling(BillingDTO billingDTO) {
+		User user = userDAO.getUser(billingDTO.getUser().getId());
+		Billing billing = billingDAO.getBilling(billingDTO.getMonth(),billingDTO.getYear(),user);
+		return billing;
 	}
 
 }

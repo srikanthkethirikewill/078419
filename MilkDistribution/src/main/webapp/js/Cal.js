@@ -172,7 +172,8 @@
       }
 
       function addCell($row, date, darker, selected) {
-         var $td = $("<td class='ui-body-" + plugin.settings.theme + "'/>").appendTo($row);
+    	 var roasterDataObj = roasters[date.getDate()];
+    	 var $td = $("<td class='ui-body-" + plugin.settings.theme + "'/>").appendTo($row);
          if ( darker ) {
         	 return;
          }
@@ -182,6 +183,15 @@
                   .click(cellClickHandler)
 		  .taphold(cellTapholdHandler)
                   .appendTo($td);
+         
+         $("<br>").appendTo($td);
+         if (roasterDataObj) {
+        	 $("<label style='font-size: 0.6em'/>").html("Qty: "+roasterDataObj.prodQty).appendTo($td);
+        	 $("<label  style='font-size: 0.6em'/>").html("Amount: "+roasterDataObj.prodAmount).appendTo($td);
+    	 } else {
+    		 $("<label  style='font-size: 0.6em'/>").html("Qty: 0").appendTo($td);
+    		 $("<label  style='font-size: 0.6em'/>").html("Amount: 0.00").appendTo($td);
+    	 }
 
          //if ( selected ) $a.click();
          

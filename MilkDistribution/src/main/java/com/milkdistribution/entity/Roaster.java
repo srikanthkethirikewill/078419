@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.GenericGenerator;
 
 @NamedQueries({
@@ -42,7 +41,7 @@ public class Roaster {
 	
 	private User user;
 	
-	@Formula("(SELECT SUM(D.RATE) FROM ROASTER_DTL D WHERE D.ROASTER_ID = ID)")
+	
 	private double amount;
 	
 	private String status;

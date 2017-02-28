@@ -92,7 +92,7 @@ function prepareActiveUsers() {
 		$('#activeUser'+t).click(function (event) {
 			var ind = parseInt(event.target.id.toString().substring(10));
 			storage.set("USER", activeUsers[ind]);
-			$.mobile.changePage($("#view-calendar"));
+			$.mobile.changePage($("#view-user-menu"));
 		});
 	}
 }
@@ -223,11 +223,13 @@ $(document).on("pageshow","#activate-user",function(){
 		areaContent += "<option value='"+areaCollection[j].id+"'>"+areaCollection[j].description+"</option>";
     }
 	$("#activate_area").append(areaContent).selectmenu( "refresh" );
-	$('#activate_userId').val(userObj.userId);	
+	$('#activate_userId').val(userObj.userId);
+	$('#activate_firstName').val(userObj.firstName);
+	$('#activate_lastName').val(userObj.lastName);
 	$('#activate_mobile').val(userObj.mobile);	
 	$('#activate_email').val(userObj.mailId);	
 	$('#activate_address').val(userObj.address);	
-	$("#activate_area").val((userObj.area != null ? userObj.area.id : ""));
+	$("#activate_area").val((userObj.area != null ? userObj.area.id : "")).selectmenu('refresh');
 	var roasterDetails = userObj.requirement;
 	for (var t=0;t<roasterDetails.length;t++) {
 		$( "#addActivateProduct" ).trigger('click');
@@ -250,11 +252,20 @@ function validateActivateUserDetails() {
     var email = $('#activate_email').val();
     var address = $('#activate_address').val();
     var area = $('#activate_area').val();
+    var firstName = $('#activate_firstName').val();
+	var lastName = $('#activate_lastName').val();
     if (userId == '') {
-    	signUpValidationError("Please enter User Id");
+    	activateUpValidationError("Please enter User Id");
     	return false;
     }
-    
+    if (firstName == '') {
+    	activateUpValidationError("Please enter First Name");
+    	return false;
+    }
+    if (lastName == '') {
+    	activateUpValidationError("Please enter Last Name");
+    	return false;
+    }
     if (mobile == '') {
     	activateUpValidationError("Please enter Mobile Number");
     	return false;
@@ -312,6 +323,8 @@ function prepareActivateUserData() {
     var email = $('#activate_email').val();
     var address = $('#activate_address').val();
     var area = $('#activate_area').val();
+    var firstName = $('#activate_firstName').val();
+	var lastName = $('#activate_lastName').val();
     var userObj = storage.get("PENDING_USER");
     var areaObj = {};
     areaObj.id = area;
@@ -321,6 +334,8 @@ function prepareActivateUserData() {
     userObj.status = "A";
     userObj.role = "N";
     userObj.area = areaObj;
+    userObj.firstName = firstName;
+    userObj.lastName = lastName;
     var requirement = [];
     for (var k=1;k<=activate_nextId;k++) {
     	if ($("#setActivateProduct"+k).is(":visible")) {

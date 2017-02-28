@@ -26,7 +26,7 @@
 	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 	<property name="url" value="jdbc:mysql://localhost:3306/MilkDistribution" />
 	<property name="username" value="root" />
-	<property name="password" value="Shanker@123" />
+	<property name="password" value="root" />
 </bean>
 <bean id="aspect" class="com.milkdistribution.aop.ControllerAspect"/>
 <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -38,7 +38,7 @@
     <property name="hibernateProperties">
        <props>
          <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-         <prop key="hibernate.show_sql">false</prop>
+         <prop key="hibernate.show_sql">true</prop>
          <prop key="hibernate.hbm2ddl.auto">update</prop>
        </props>
     </property>
